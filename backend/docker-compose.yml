@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14 
+    restart: always 
+    env_file: .env.docker
+    volumes:
+      - postgres_data:/var/lib/postgresql/data 
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:latest 
+    restart: always 
+    ports:
+      - "6379:6379"
+  backend:
+    build: .
+    restart: always
+    depends_on:
+      - db
+      - redis
+    env_file: .env.docker
+    volumes:
+      - ./:/app
+    ports:
+      - "8000:8000"
+    command: ["bash", "/app/entrypoint.sh"]
+
+  celery_worker:
+    build: . 
+    restart: always
+    depends_on:
+      - db 
+      - redis 
+    env_file: .env.docker 
+    command: ["celery", "-A", "core", "worker", "--loglevel=info"]
+
+
+  celery_beat:
+    build: .
+    restart: always 
+    depends_on:
+      - db 
+      - redis
+    env_file: .env.docker 
+    command: ['celery', '-A', 'core', 'beat', '--loglevel=info'] 
+
+volumes:
+  postgres_data:
