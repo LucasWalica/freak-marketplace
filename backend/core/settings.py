@@ -26,7 +26,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.ENV'))
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+4jqn63fxamu+9(+hrz5gthcfq2g4q1%9t@#gmi$lwl(mj2^f4'
+SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -34,7 +34,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWED_ORIGINS = ["*"]
+CORS_ALLOWED_ORIGINS = ["http://localhost:4200"]
 
 # Application definition
 
@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'products',
     'categories',
     'chat',
+    'suscriptions',
     'core',
 ]
 
@@ -122,9 +123,9 @@ DATABASE_URL = env('DATABASE_URL')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'projectdb',
-        'USER': 'projectuser',
-        'PASSWORD': 'test',
+        'NAME': env("POSTGRES_DB"),
+        'USER': env("POSTGRES_USER"),
+        'PASSWORD': env("POSTGRES_PASSWORD"),
         'HOST': 'db',  
         'PORT': '5432',
     }

@@ -1,7 +1,7 @@
 import uuid
 from django.db import models
 from django.contrib.auth.models import User
-from .models import Product  # Asegúrate de importar tu modelo de Producto
+from products.models import Product  # Asegúrate de importar tu modelo de Producto
 
 class ChatRoom(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
