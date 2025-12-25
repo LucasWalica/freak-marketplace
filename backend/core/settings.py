@@ -56,6 +56,11 @@ INSTALLED_APPS = [
     'core',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'users.backends.EmailBackend',              # Tu nuevo login por email
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 ASGI_APPLICATION = 'core.asgi.application'
 
 CHANNEL_LAYERS = {
