@@ -13,7 +13,7 @@ import os
 import environ 
 from celery.schedules import crontab
 from pathlib import Path
-
+from time import timedelta
 
 
 env = environ.Env(debul=(bool, False))
@@ -71,6 +71,16 @@ AUTHENTICATION_BACKENDS = [
     'users.backends.EmailBackend',              # Tu nuevo login por email
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+# --- SIMPLE JWT ---
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+
+    "AUTH_COOKIE": "access_token",
+    "AUTH_COOKIE_SECURE": False,
+    "AUTH_COOKIE_HTTP_ONLY": True,
+    "AUTH_COOKIE_SAMESITE": "Lax",   # <----
+}
 
 ASGI_APPLICATION = 'core.asgi.application'
 

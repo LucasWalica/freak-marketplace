@@ -9,9 +9,11 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import status
+from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 # Create your views here.
 
 
@@ -50,15 +52,21 @@ class LoginView(APIView):
         
 
         if user is not None:
-            token, created = Token.objects.get_or_create(user=user)
-            return Response({
-                "token":token.key,
-                "user": {
-                    "id": user.id,
-                    "username": user.username,
-                    "email": user.email,
-                },
-            }, status=200)
+            access = AccessToken.for_user(user)
+            response = JsonResponse({
+                "user": UserSerializer(user).data,
+                "message": "Login successful"
+            })      
+            # Cookie JWT Django
+            response.set_cookie(
+                key="access_token",
+                value=str(access),
+                httponly=True,
+                secure=False,      # local
+                samesite="Lax",    # <----- cambiar aquí
+                max_age=3600,
+                path="/"
+            )
         else:
             return Response({"error": "Invalid credentials"}, status=401)
 #logout 
