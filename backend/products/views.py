@@ -56,6 +56,9 @@ class UpdateProductView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated, IsOwner]
     queryset = Product.objects.all()
 
+    def update(self, request, *args, **kwargs):
+        kwargs['partial'] = True  # Esto hace que el PUT se comporte como un PATCH
+        return super().update(request, *args, **kwargs)
 
 class DeleteProductView(generics.DestroyAPIView):
     """Vista para eliminar un producto (solo el propietario puede hacerlo)"""
