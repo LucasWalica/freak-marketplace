@@ -33,6 +33,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Freak Marketplace API',
+    'DESCRIPTION': 'API para compra-venta de artículos geek',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # Esto es genial: agrupa tus endpoints por etiquetas
+    'COMPONENT_SPLIT_PATCH': True,
+}
+
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = ["http://localhost:4200"]
 
@@ -54,6 +64,7 @@ INSTALLED_APPS = [
     'chat',
     'suscriptions',
     'core',
+    'drf_spectacular',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -93,6 +104,7 @@ ROOT_URLCONF = 'core.urls'
 
 
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
