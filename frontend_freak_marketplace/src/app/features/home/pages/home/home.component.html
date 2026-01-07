@@ -1,0 +1,137 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-r from-primary-600 to-indigo-700 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <div class="text-center">
+        <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+          🛍️ FreakMarket
+        </h1>
+        <p class="mt-6 text-xl max-w-3xl mx-auto">
+          El marketplace para freaks como tú. Compra, vende y descubre productos únicos.
+        </p>
+        <div class="mt-10 flex justify-center space-x-4">
+          <a routerLink="/products" class="bg-white text-primary-600 px-6 py-3 rounded-md text-lg font-medium hover:bg-gray-100 transition-colors">
+            🛍️ Explorar Productos
+          </a>
+          <a routerLink="/auth/register" class="border-2 border-white text-white px-6 py-3 rounded-md text-lg font-medium hover:bg-white hover:text-primary-600 transition-colors">
+            🚀 Registrarse
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900">Categorías Populares</h2>
+        <p class="mt-4 text-lg text-gray-600">Explora nuestras categorías más buscadas</p>
+      </div>
+      
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <div *ngFor="let category of categories" class="text-center">
+          <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer">
+            <div class="text-4xl mb-2">{{ category.icon || '📦' }}</div>
+            <h3 class="font-medium text-gray-900">{{ category.name }}</h3>
+            <p class="text-sm text-gray-500 mt-1">{{ category.product_count || 0 }} productos</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products Section -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900">Productos Destacados</h2>
+        <p class="mt-4 text-lg text-gray-600">Los mejores productos seleccionados para ti</p>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="flex justify-center items-center py-12">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      </div>
+
+      <!-- Products Grid -->
+      <div *ngIf="!isLoading && featuredProducts.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <app-product-card 
+          *ngFor="let product of featuredProducts" 
+          [product]="product">
+        </app-product-card>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!isLoading && featuredProducts.length === 0" class="text-center py-12">
+        <div class="text-6xl mb-4">📦</div>
+        <h3 class="text-xl font-medium text-gray-900 mb-2">No hay productos destacados</h3>
+        <p class="text-gray-600 mb-6">Vuelve más tarde para ver nuevos productos</p>
+        <a routerLink="/products" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700">
+          Ver todos los productos
+        </a>
+      </div>
+
+      <!-- View All Button -->
+      <div *ngIf="!isLoading && featuredProducts.length > 0" class="text-center mt-12">
+        <a routerLink="/products" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 transition-colors">
+          Ver todos los productos →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900">¿Por qué FreakMarket?</h2>
+        <p class="mt-4 text-lg text-gray-600">La mejor plataforma para comprar y vender productos geek</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="bg-primary-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+            <span class="text-2xl">🔒</span>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Seguro</h3>
+          <p class="text-gray-600">Transacciones seguras y protección para compradores y vendedores</p>
+        </div>
+
+        <div class="text-center">
+          <div class="bg-primary-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+            <span class="text-2xl">💬</span>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Chat en vivo</h3>
+          <p class="text-gray-600">Comunica directamente con vendedores y compradores</p>
+        </div>
+
+        <div class="text-center">
+          <div class="bg-primary-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+            <span class="text-2xl">🌟</span>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Calificaciones</h3>
+          <p class="text-gray-600">Sistema de calificaciones para construir confianza</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-primary-600">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-white">¿Listo para empezar?</h2>
+        <p class="mt-4 text-xl text-primary-100">Únete a nuestra comunidad de freaks y empieza a comprar y vender hoy mismo</p>
+        <div class="mt-8 flex justify-center space-x-4">
+          <a routerLink="/auth/register" class="bg-white text-primary-600 px-8 py-3 rounded-md text-lg font-medium hover:bg-gray-100 transition-colors">
+            🚀 Crear cuenta
+          </a>
+          <a routerLink="/auth/login" class="border-2 border-white text-white px-8 py-3 rounded-md text-lg font-medium hover:bg-white hover:text-primary-600 transition-colors">
+            🔐 Iniciar sesión
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

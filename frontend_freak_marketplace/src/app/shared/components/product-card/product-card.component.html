@@ -1,0 +1,136 @@
+<div 
+  class="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden {{ getBoostClass() }}"
+  (click)="onProductClick()"
+>
+  <!-- Boost indicator -->
+  <div 
+    *ngIf="product.is_boost_active" 
+    class="absolute top-2 right-2 z-10"
+  >
+    <span 
+      *ngIf="product.boost_type === 'NEON'"
+      class="bg-neon text-black px-2 py-1 rounded-full text-xs font-bold animate-pulse"
+    >
+      ⚡ NEON
+    </span>
+    <span 
+      *ngIf="product.boost_type === 'GOLD'"
+      class="bg-gold text-black px-2 py-1 rounded-full text-xs font-bold"
+    >
+      👑 GOLD
+    </span>
+  </div>
+
+  <!-- Product images -->
+  <div class="relative h-48 bg-gray-200">
+    <img 
+      *ngIf="product.images && product.images.length > 0; else noImage"
+      [src]="product.images[0]" 
+      [alt]="product.title"
+      class="w-full h-full object-cover"
+    >
+    <ng-template #noImage>
+      <div class="w-full h-full flex items-center justify-center bg-gray-200">
+        <svg class="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Product info -->
+  <div class="p-4">
+    <!-- Category -->
+    <div class="flex items-center mb-2">
+      <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+        {{ product.category.name['es'] || product.category.slug }}
+      </span>
+      <span class="ml-auto text-xs text-gray-500">
+        {{ formatDate(product.created_at) }}
+      </span>
+    </div>
+
+    <!-- Title -->
+    <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+      {{ product.title | truncate: 60 }}
+    </h3>
+
+    <!-- Description -->
+    <p class="text-gray-600 text-sm mb-3 line-clamp-3">
+      {{ product.description | truncate: 100 }}
+    </p>
+
+    <!-- Specifications -->
+    <div class="mb-3" *ngIf="product.specifications && Object.keys(product.specifications).length > 0">
+      <div class="flex flex-wrap gap-1">
+        <span 
+          *ngFor="let spec of getSpecificationKeys() | slice:0:3"
+          class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"
+        >
+          {{ spec }}: {{ product.specifications[spec] }}
+        </span>
+        <span 
+          *ngIf="getSpecificationKeys().length > 3"
+          class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"
+        >
+          +{{ getSpecificationKeys().length - 3 }} más
+        </span>
+      </div>
+    </div>
+
+    <!-- Price and Status -->
+    <div class="flex items-center justify-between mb-3">
+      <div>
+        <span class="text-2xl font-bold text-primary-600">
+          {{ formatPrice(product.price) }}
+        </span>
+      </div>
+      <span class="px-2 py-1 rounded-full text-xs font-medium {{ getStatusClass() }}">
+        {{ getStatusText() }}
+      </span>
+    </div>
+
+    <!-- Action buttons -->
+    <div *ngIf="showActions" class="flex gap-2">
+      <button 
+        (click)="onEditClick($event)"
+        class="flex-1 bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600 transition-colors text-sm font-medium"
+      >
+        ✏️ Editar
+      </button>
+      <button 
+        (click)="onDeleteClick($event)"
+        class="flex-1 bg-red-500 text-white px-3 py-2 rounded-md hover:bg-red-600 transition-colors text-sm font-medium"
+      >
+        🗑️ Eliminar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Custom styles for line clamping -->
+<style>
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.border-neon {
+  border-color: #39ff14;
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+}
+
+.border-gold {
+  border-color: #ffd700;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+</style>

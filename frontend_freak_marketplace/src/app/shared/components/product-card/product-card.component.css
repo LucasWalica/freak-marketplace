@@ -1,0 +1,98 @@
+/* Additional styles for product card */
+.product-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Boost animations */
+.boost-neon {
+  animation: neonGlow 2s ease-in-out infinite alternate;
+}
+
+.boost-gold {
+  animation: goldShimmer 3s linear infinite;
+}
+
+@keyframes neonGlow {
+  0% {
+    box-shadow: 0 0 5px rgba(57, 255, 20, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.8);
+  }
+}
+
+@keyframes goldShimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* Status badge animations */
+.status-badge {
+  transition: all 0.2s ease;
+}
+
+.status-badge:hover {
+  transform: scale(1.05);
+}
+
+/* Image container */
+.image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-container img {
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .image-container img {
+  transform: scale(1.05);
+}
+
+/* Action buttons */
+.action-buttons {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+.product-card:hover .action-buttons {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .product-card {
+    margin-bottom: 1rem;
+  }
+  
+  .action-buttons {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

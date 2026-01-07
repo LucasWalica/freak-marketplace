@@ -1,0 +1,150 @@
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="text-center">
+      <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
+        🚀 Crear cuenta
+      </h2>
+      <p class="mt-2 text-sm text-gray-600">
+        ¿Ya tienes cuenta? 
+        <a routerLink="/auth/login" class="font-medium text-primary-600 hover:text-primary-500">
+          Inicia sesión aquí
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <!-- Success Message -->
+      <div *ngIf="successMessage" class="mb-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-md">
+        {{ successMessage }}
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-md">
+        {{ errorMessage }}
+      </div>
+
+      <form (ngSubmit)="onSubmit()" class="space-y-6">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="first_name" class="block text-sm font-medium text-gray-700">
+              Nombre
+            </label>
+            <input
+              id="first_name"
+              name="first_name"
+              type="text"
+              [(ngModel)]="formData.first_name"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            >
+          </div>
+
+          <div>
+            <label for="last_name" class="block text-sm font-medium text-gray-700">
+              Apellido
+            </label>
+            <input
+              id="last_name"
+              name="last_name"
+              type="text"
+              [(ngModel)]="formData.last_name"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            >
+          </div>
+        </div>
+
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-700">
+            Nombre de usuario
+          </label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            [(ngModel)]="formData.username"
+            required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+          >
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">
+            Correo electrónico
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            [(ngModel)]="formData.email"
+            required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+          >
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700">
+            Contraseña
+          </label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            [(ngModel)]="formData.password"
+            required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+          >
+        </div>
+
+        <div>
+          <label for="password2" class="block text-sm font-medium text-gray-700">
+            Confirmar contraseña
+          </label>
+          <input
+            id="password2"
+            name="password2"
+            type="password"
+            [(ngModel)]="formData.password2"
+            required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+          >
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            [disabled]="isLoading"
+            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span *ngIf="isLoading" class="mr-2">
+              <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </span>
+            {{ isLoading ? 'Creando cuenta...' : 'Crear cuenta' }}
+          </button>
+        </div>
+      </form>
+
+      <div class="mt-6">
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-300"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-2 bg-white text-gray-500">O</span>
+          </div>
+        </div>
+
+        <div class="mt-6 text-center">
+          <a routerLink="/home" class="text-sm text-gray-600 hover:text-gray-900">
+            ← Volver al inicio
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
