@@ -53,6 +53,7 @@ class LoginView(APIView):
 
         if user is not None:
             access = AccessToken.for_user(user)
+            refresh = AccessToken.for_user(user)
             response = JsonResponse({
                 "user": UserSerializer(user).data,
                 "message": "Login successful"
@@ -67,15 +68,16 @@ class LoginView(APIView):
                 max_age=3600,
                 path="/"
             )
+            return response
         else:
             return Response({"error": "Invalid credentials"}, status=401)
 #logout 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
     def post(self, request):
-        request.user.auth_token.delete()
-        return Response({'message':"user logout succesfully"}, status=200)    
+        response = Response({'message':"user logout successfully"}, status=200)
+        response.delete_cookie('access_token', path='/')
+        return response    
     
 
 
@@ -84,7 +86,6 @@ class CreateProfileView(generics.CreateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -94,13 +95,12 @@ class CreateProfileView(generics.CreateAPIView):
         if not profile:
             return Response({"error":"invalid credentials"}, status=401)
         
-        return Response({"message":"profile created succesfully"}, status=201)
+        return Response({"message":"profile created successfully"}, status=201)
 
 
 class ProfileDetailUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
 
     def get_object(self):
         # Esto garantiza que el usuario logueado obtenga SU perfil 
@@ -112,6 +112,4 @@ class PublicProfileDetailView(generics.RetrieveAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication] 
-    lookup_field = 'id' 
-    
+    lookup_field = 'id'
