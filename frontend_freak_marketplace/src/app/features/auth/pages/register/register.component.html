@@ -1,12 +1,15 @@
-<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-gradient-to-br from-freak-dark to-freak-secondary flex flex-col justify-center py-12 sm:px-6 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-md">
     <div class="text-center">
-      <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
-        🚀 Crear cuenta
+      <div class="mx-auto h-20 w-20 flex items-center justify-center bg-gradient-cyberpunk rounded-full shadow-cyber animate-cyber-glow">
+        <span class="text-4xl">🛍️</span>
+      </div>
+      <h2 class="mt-6 text-3xl font-extrabold text-freak-light tracking-tight animate-fade-in">
+        🚀 Únete al Gremio
       </h2>
-      <p class="mt-2 text-sm text-gray-600">
-        ¿Ya tienes cuenta? 
-        <a routerLink="/auth/login" class="font-medium text-primary-600 hover:text-primary-500">
+      <p class="mt-2 text-sm text-freak-light font-medium animate-fade-in">
+        ¿Ya tienes cuenta?
+        <a routerLink="/auth/login" class="font-bold text-freak-secondary hover:underline glow">
           Inicia sesión aquí
         </a>
       </p>
@@ -14,21 +17,21 @@
   </div>
 
   <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+    <div class="card animate-fade-in">
       <!-- Success Message -->
-      <div *ngIf="successMessage" class="mb-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-md">
+      <div *ngIf="successMessage" class="mb-4 p-4 bg-freak-success bg-opacity-10 border-l-4 border-freak-success text-freak-success rounded-md animate-pulse">
         {{ successMessage }}
       </div>
 
       <!-- Error Message -->
-      <div *ngIf="errorMessage" class="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-md">
+      <div *ngIf="errorMessage" class="mb-4 p-4 bg-freak-danger bg-opacity-10 border-l-4 border-freak-danger text-freak-danger rounded-md animate-pulse">
         {{ errorMessage }}
       </div>
 
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label for="first_name" class="block text-sm font-medium text-gray-700">
+            <label for="first_name" class="block text-sm font-semibold text-freak-light mb-1">
               Nombre
             </label>
             <input
@@ -36,22 +39,23 @@
               name="first_name"
               type="text"
               formControlName="first_name"
-              class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+              placeholder="Ej: Lucas"
+              class="block w-full px-4 py-3 border rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
               [ngClass]="{
-                'border-red-300 focus:ring-red-200 focus:border-red-500': firstNameControl?.touched && firstNameControl?.invalid,
-                'border-gray-300': !(firstNameControl?.touched && firstNameControl?.invalid)
+                'border-freak-danger focus:ring-freak-danger focus:border-freak-danger': firstNameControl?.touched && firstNameControl?.invalid,
+                'border-freak-primary focus:ring-freak-secondary focus:border-freak-secondary': !(firstNameControl?.touched && firstNameControl?.invalid)
               }"
             >
-            <div 
+            <div
               *ngIf="firstNameControl?.touched && firstNameControl?.invalid"
-              class="mt-1 text-xs text-red-600 font-medium"
+              class="mt-1 text-xs text-freak-danger font-medium"
             >
               <span *ngIf="firstNameControl?.errors?.['maxlength']">El nombre no puede exceder 30 caracteres.</span>
             </div>
           </div>
 
           <div>
-            <label for="last_name" class="block text-sm font-medium text-gray-700">
+            <label for="last_name" class="block text-sm font-semibold text-freak-light mb-1">
               Apellido
             </label>
             <input
@@ -59,15 +63,16 @@
               name="last_name"
               type="text"
               formControlName="last_name"
-              class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+              placeholder="Ej: Ninja"
+              class="block w-full px-4 py-3 border rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
               [ngClass]="{
-                'border-red-300 focus:ring-red-200 focus:border-red-500': lastNameControl?.touched && lastNameControl?.invalid,
-                'border-gray-300': !(lastNameControl?.touched && lastNameControl?.invalid)
+                'border-freak-danger focus:ring-freak-danger focus:border-freak-danger': lastNameControl?.touched && lastNameControl?.invalid,
+                'border-freak-primary focus:ring-freak-secondary focus:border-freak-secondary': !(lastNameControl?.touched && lastNameControl?.invalid)
               }"
             >
-            <div 
+            <div
               *ngIf="lastNameControl?.touched && lastNameControl?.invalid"
-              class="mt-1 text-xs text-red-600 font-medium"
+              class="mt-1 text-xs text-freak-danger font-medium"
             >
               <span *ngIf="lastNameControl?.errors?.['maxlength']">El apellido no puede exceder 30 caracteres.</span>
             </div>
@@ -75,24 +80,24 @@
         </div>
 
         <div>
-          <label for="username" class="block text-sm font-medium text-gray-700">
-            Nombre de usuario <span class="text-red-500">*</span>
+          <label for="username" class="block text-sm font-semibold text-freak-light mb-1">
+            Nombre de usuario <span class="text-freak-danger">*</span>
           </label>
           <input
             id="username"
             name="username"
             type="text"
             formControlName="username"
-            placeholder="Ej: usuario123"
-            class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            placeholder="Ej: lucas_ninja"
+            class="block w-full px-4 py-3 border rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
             [ngClass]="{
-              'border-red-300 focus:ring-red-200 focus:border-red-500': usernameControl?.touched && usernameControl?.invalid,
-              'border-gray-300': !(usernameControl?.touched && usernameControl?.invalid)
+              'border-freak-danger focus:ring-freak-danger focus:border-freak-danger': usernameControl?.touched && usernameControl?.invalid,
+              'border-freak-primary focus:ring-freak-secondary focus:border-freak-secondary': !(usernameControl?.touched && usernameControl?.invalid)
             }"
           >
-          <div 
+          <div
             *ngIf="usernameControl?.touched && usernameControl?.invalid"
-            class="mt-1 text-xs text-red-600 font-medium"
+            class="mt-1 text-xs text-freak-danger font-medium"
           >
             <span *ngIf="usernameControl?.errors?.['required']">{{ usernameControl?.errors?.['required'] }}</span>
             <span *ngIf="usernameControl?.errors?.['minlength']">{{ usernameControl?.errors?.['minlength'] }}</span>
@@ -102,8 +107,8 @@
         </div>
 
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700">
-            Correo electrónico <span class="text-red-500">*</span>
+          <label for="email" class="block text-sm font-semibold text-freak-light mb-1">
+            Correo electrónico <span class="text-freak-danger">*</span>
           </label>
           <input
             id="email"
@@ -111,15 +116,15 @@
             type="email"
             formControlName="email"
             placeholder="correo@ejemplo.com"
-            class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            class="block w-full px-4 py-3 border rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
             [ngClass]="{
-              'border-red-300 focus:ring-red-200 focus:border-red-500': emailControl?.touched && emailControl?.invalid,
-              'border-gray-300': !(emailControl?.touched && emailControl?.invalid)
+              'border-freak-danger focus:ring-freak-danger focus:border-freak-danger': emailControl?.touched && emailControl?.invalid,
+              'border-freak-primary focus:ring-freak-secondary focus:border-freak-secondary': !(emailControl?.touched && emailControl?.invalid)
             }"
           >
-          <div 
+          <div
             *ngIf="emailControl?.touched && emailControl?.invalid"
-            class="mt-1 text-xs text-red-600 font-medium"
+            class="mt-1 text-xs text-freak-danger font-medium"
           >
             <span *ngIf="emailControl?.errors?.['required']">El email es obligatorio.</span>
             <span *ngIf="emailControl?.errors?.['email']">Ingresa un email válido.</span>
@@ -127,24 +132,39 @@
         </div>
 
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700">
-            Contraseña <span class="text-red-500">*</span>
+          <label for="password" class="block text-sm font-semibold text-freak-light mb-1">
+            Contraseña <span class="text-freak-danger">*</span>
           </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            formControlName="password"
-            placeholder="Mínimo 8 caracteres, mayúscula y número"
-            class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-            [ngClass]="{
-              'border-red-300 focus:ring-red-200 focus:border-red-500': passwordControl?.touched && passwordControl?.invalid,
-              'border-gray-300': !(passwordControl?.touched && passwordControl?.invalid)
-            }"
-          >
-          <div 
+          <div class="relative">
+            <input
+              id="password"
+              name="password"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="Mínimo 8 caracteres, mayúscula y número"
+              class="block w-full px-4 py-3 border rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
+              [ngClass]="{
+                'border-freak-danger focus:ring-freak-danger focus:border-freak-danger': passwordControl?.touched && passwordControl?.invalid,
+                'border-freak-primary focus:ring-freak-secondary focus:border-freak-secondary': !(passwordControl?.touched && passwordControl?.invalid)
+              }"
+            >
+            <button
+              type="button"
+              (click)="showPassword = !showPassword"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center text-freak-light hover:text-freak-secondary transition-colors"
+            >
+              <svg *ngIf="!showPassword" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              <svg *ngIf="showPassword" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.542-7m5.858 5.858A3 3 0 1114.142 14.142M17 17l-5-5m-5-5l5 5" />
+              </svg>
+            </button>
+          </div>
+          <div
             *ngIf="passwordControl?.touched && passwordControl?.invalid"
-            class="mt-1 text-xs text-red-600 font-medium"
+            class="mt-1 text-xs text-freak-danger font-medium"
           >
             <span *ngIf="passwordControl?.errors?.['required']">La contraseña es obligatoria.</span>
             <span *ngIf="passwordControl?.errors?.['minLength']">{{ passwordControl?.errors?.['minLength'] }}</span>
@@ -155,24 +175,39 @@
         </div>
 
         <div>
-          <label for="password2" class="block text-sm font-medium text-gray-700">
-            Confirmar contraseña <span class="text-red-500">*</span>
+          <label for="password2" class="block text-sm font-semibold text-freak-light mb-1">
+            Confirmar contraseña <span class="text-freak-danger">*</span>
           </label>
-          <input
-            id="password2"
-            name="password2"
-            type="password"
-            formControlName="password2"
-            placeholder="Repite tu contraseña"
-            class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-            [ngClass]="{
-              'border-red-300 focus:ring-red-200 focus:border-red-500': password2Control?.touched && password2Control?.invalid,
-              'border-gray-300': !(password2Control?.touched && password2Control?.invalid)
-            }"
-          >
-          <div 
+          <div class="relative">
+            <input
+              id="password2"
+              name="password2"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password2"
+              placeholder="Repite tu contraseña"
+              class="block w-full px-4 py-3 border rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
+              [ngClass]="{
+                'border-freak-danger focus:ring-freak-danger focus:border-freak-danger': password2Control?.touched && password2Control?.invalid,
+                'border-freak-primary focus:ring-freak-secondary focus:border-freak-secondary': !(password2Control?.touched && password2Control?.invalid)
+              }"
+            >
+            <button
+              type="button"
+              (click)="showPassword = !showPassword"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center text-freak-light hover:text-freak-secondary transition-colors"
+            >
+              <svg *ngIf="!showPassword" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              <svg *ngIf="showPassword" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.542-7m5.858 5.858A3 3 0 1114.142 14.142M17 17l-5-5m-5-5l5 5" />
+              </svg>
+            </button>
+          </div>
+          <div
             *ngIf="password2Control?.touched && password2Control?.invalid"
-            class="mt-1 text-xs text-red-600 font-medium"
+            class="mt-1 text-xs text-freak-danger font-medium"
           >
             <span *ngIf="password2Control?.errors?.['required']">Confirma tu contraseña.</span>
             <span *ngIf="password2Control?.errors?.['passwordMismatch']">{{ password2Control?.errors?.['passwordMismatch'] }}</span>
@@ -183,15 +218,18 @@
           <button
             type="submit"
             [disabled]="registerForm.invalid || isLoading"
-            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-button text-freak-dark bg-gradient-cyberpunk hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-freak-secondary disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md cyberpunk"
           >
-            <span *ngIf="isLoading" class="mr-2">
-              <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <span *ngIf="!isLoading" class="flex items-center">
+              Crear cuenta
+            </span>
+            <span *ngIf="isLoading" class="flex items-center">
+              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-freak-dark" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
+              {{ isLoading ? 'Creando cuenta...' : 'Crear cuenta' }}
             </span>
-            {{ isLoading ? 'Creando cuenta...' : 'Crear cuenta' }}
           </button>
         </div>
       </form>
@@ -199,16 +237,17 @@
       <div class="mt-6">
         <div class="relative">
           <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-gray-300"></div>
+            <div class="w-full border-t border-freak-primary"></div>
           </div>
           <div class="relative flex justify-center text-sm">
-            <span class="px-2 bg-white text-gray-500">O</span>
+            <span class="px-2 bg-freak-dark text-freak-light">O</span>
           </div>
         </div>
 
         <div class="mt-6 text-center">
-          <a routerLink="/home" class="text-sm text-gray-600 hover:text-gray-900">
-            ← Volver al inicio
+          <a routerLink="/home" class="text-sm text-freak-light hover:text-freak-secondary flex items-center justify-center mx-auto glow">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Volver al inicio
           </a>
         </div>
       </div>

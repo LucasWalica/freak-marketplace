@@ -1,40 +1,38 @@
-<div class="min-h-screen bg-gray-50 py-8">
+<div class="min-h-screen bg-freak-dark py-8">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="bg-white shadow-lg rounded-lg">
+    <div class="card">
       <!-- Header -->
-      <div class="px-6 py-4 border-b border-gray-200">
-        <div class="flex items-center justify-between">
-          <h1 class="text-2xl font-bold text-gray-900">📦 Productos</h1>
-          <button 
-            (click)="onCreateProduct()"
-            class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors"
-          >
-            + Crear Producto
-          </button>
-        </div>
+      <div class="px-6 py-4 border-b border-freak-primary flex justify-between items-center">
+        <h1 class="text-2xl font-bold neon animate-pulse">📦 Productos</h1>
+        <button
+          (click)="onCreateProduct()"
+          class="bg-gradient-cyberpunk text-freak-dark hover:opacity-90 px-4 py-2 rounded-button text-sm font-medium transition-all cyberpunk"
+        >
+          + Crear Producto
+        </button>
       </div>
 
       <!-- Filtros -->
-      <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+      <div class="px-6 py-4 border-b border-freak-primary bg-freak-dark bg-opacity-50">
         <form [formGroup]="filterForm" (ngSubmit)="onFilterChange()" class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
-              <label for="category" class="block text-sm font-medium text-gray-700">Categoría</label>
-              <select 
+              <label for="category" class="block text-sm font-medium text-freak-light mb-1">Categoría</label>
+              <select
                 id="category"
                 formControlName="category"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                class="block w-full px-3 py-2 border border-freak-primary rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
               >
                 <option value="">Todas las categorías</option>
               </select>
             </div>
 
             <div>
-              <label for="status" class="block text-sm font-medium text-gray-700">Estado</label>
-              <select 
+              <label for="status" class="block text-sm font-medium text-freak-light mb-1">Estado</label>
+              <select
                 id="status"
                 formControlName="status"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                class="block w-full px-3 py-2 border border-freak-primary rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
               >
                 <option value="">Todos los estados</option>
                 <option value="AVAILABLE">Disponible</option>
@@ -44,14 +42,101 @@
             </div>
 
             <div>
-              <label for="boost_type" class="block text-sm font-medium text-gray-700">Tipo de Boost</label>
-              <select 
+              <label for="boost_type" class="block text-sm font-medium text-freak-light mb-1">Tipo de Boost</label>
+              <select
                 id="boost_type"
                 formControlName="boost_type"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                class="block w-full px-3 py-2 border border-freak-primary rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
               >
                 <option value="">Todos</option>
                 <option value="NEON">Neon Green</option>
                 <option value="GOLD">Gold Edition</option>
               </select>
             </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="min_price" class="block text-sm font-medium text-freak-light mb-1">Precio mínimo</label>
+              <input
+                type="number"
+                id="min_price"
+                formControlName="min_price"
+                class="block w-full px-3 py-2 border border-freak-primary rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
+                placeholder="0"
+              >
+            </div>
+
+            <div>
+              <label for="max_price" class="block text-sm font-medium text-freak-light mb-1">Precio máximo</label>
+              <input
+                type="number"
+                id="max_price"
+                formControlName="max_price"
+                class="block w-full px-3 py-2 border border-freak-primary rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
+                placeholder="10000"
+              >
+            </div>
+          </div>
+
+          <div class="flex justify-end">
+            <button
+              type="submit"
+              class="bg-freak-primary text-freak-light hover:bg-freak-secondary px-4 py-2 rounded-button transition-colors"
+            >
+              Aplicar Filtros
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Productos -->
+      <div class="px-6 py-4">
+        <div *ngIf="isLoading" class="text-center py-8">
+          <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-freak-secondary mx-auto"></div>
+          <p class="mt-2 text-freak-light">Cargando productos...</p>
+        </div>
+
+        <div *ngIf="!isLoading && products.length === 0" class="text-center py-8">
+          <p class="text-freak-light">No se encontraron productos.</p>
+        </div>
+
+        <div *ngIf="!isLoading && products.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <app-product-card
+            *ngFor="let product of products"
+            [product]="product"
+            [showActions]="showActions"
+            (edit)="onEditProduct($event)"
+            (delete)="onDeleteProduct($event)"
+            (productClick)="onProductClick($event)"
+          ></app-product-card>
+        </div>
+      </div>
+
+      <!-- Paginación -->
+      <div *ngIf="!isLoading && products.length > 0" class="px-6 py-4 border-t border-freak-primary flex justify-between items-center">
+        <div>
+          <p class="text-sm text-freak-light">
+            Mostrando {{ (currentPage - 1) * 12 + 1 }} a {{ currentPage * 12 }} de {{ totalPages * 12 }} productos
+          </p>
+        </div>
+        <div class="flex space-x-2">
+          <button
+            (click)="onPreviousPage()"
+            [disabled]="!hasPrevious"
+            class="px-3 py-1 rounded-button bg-freak-dark bg-opacity-50 text-freak-light hover:bg-freak-primary transition-colors disabled:opacity-50"
+          >
+            Anterior
+          </button>
+          <button
+            (click)="onNextPage()"
+            [disabled]="!hasNext"
+            class="px-3 py-1 rounded-button bg-freak-dark bg-opacity-50 text-freak-light hover:bg-freak-primary transition-colors disabled:opacity-50"
+          >
+            Siguiente
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

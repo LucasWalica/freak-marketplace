@@ -17,6 +17,7 @@ export class RegisterComponent {
   isLoading = false;
   errorMessage = '';
   successMessage = '';
+  showPassword = false;
 
   constructor(
     private fb: FormBuilder,

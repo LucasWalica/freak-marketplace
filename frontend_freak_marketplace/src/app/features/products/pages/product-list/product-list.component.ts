@@ -4,13 +4,14 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products.service';
 import { Product, ProductFilter } from '../../../../core/models/product.model';
+import { ProductCardComponent } from '../../../../shared/components/product-card/product-card.component';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, ProductCardComponent]
 })
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
@@ -20,6 +21,7 @@ export class ProductListComponent implements OnInit {
   totalPages = 1;
   hasNext = false;
   hasPrevious = false;
+  showActions = false;
 
   filterForm: FormGroup;
   searchQuery = '';
@@ -48,7 +50,7 @@ export class ProductListComponent implements OnInit {
     this.errorMessage = '';
 
     const filters = this.getFilters();
-    
+
     this.productsService.getProducts(filters).subscribe({
       next: (response) => {
         this.products = response.results;
@@ -106,6 +108,31 @@ export class ProductListComponent implements OnInit {
 
   onCreateProduct(): void {
     this.router.navigate(['/products/create']);
+  }
+
+  onEditProduct(event: Event): void {
+    event.stopPropagation();
+    const productId = (event.target as HTMLElement).getAttribute('data-product-id');
+    if (productId) {
+      this.router.navigate(['/products/edit', productId]);
+    }
+  }
+
+  onDeleteProduct(event: Event): void {
+    event.stopPropagation();
+    const productId = (event.target as HTMLElement).getAttribute('data-product-id');
+    if (productId) {
+      if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
+        this.productsService.deleteProduct(productId).subscribe({
+          next: () => {
+            this.loadProducts(this.currentPage);
+          },
+          error: (error) => {
+            this.errorMessage = 'Error al eliminar el producto. Intenta nuevamente.';
+          }
+        });
+      }
+    }
   }
 
   onBoostedProducts(): void {

@@ -6,61 +6,36 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Glassmorphism color palette
-        glass: {
-          primary: '#0f172a',
-          secondary: '#1e293b', 
-          accent: '#3b82f6',
-          light: '#f8fafc',
-          dark: '#1e293b',
-          border: 'rgba(255, 255, 255, 0.1)',
-          background: 'rgba(255, 255, 255, 0.05)',
-          overlay: 'rgba(15, 23, 42, 0.15)',
-          shadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-          glow: '0 0 20px rgba(57, 255, 20, 0.3)',
+        // FreakMarket Geek Color Palette
+        freak: {
+          primary: '#6a0dad',       // Morado vibrante
+          secondary: '#00b4d8',     // Azul eléctrico
+          accent: '#ff6b6b',        // Rojo vibrante
+          success: '#51cf66',       // Verde neón
+          warning: '#ffd166',       // Amarillo vibrante
+          danger: '#ff4757',        // Rojo intenso
+          info: '#0652dd',          // Azul profundo
+          dark: '#1a1a2e',          // Oscuro profundo
+          light: '#f8f9fa',        // Claro suave
+          neon: '#39ff14',          // Verde neón
+          gold: '#ffd700',          // Dorado
+          cyber: {
+            pink: '#ff2e63',        // Rosa cyberpunk
+            blue: '#08d9d6',        // Azul cyberpunk
+            purple: '#9d50bb',      // Morado cyberpunk
+          },
         },
-        // Existing colors (kept for compatibility)
-        primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
+        // Gradient colors for geek theme
+        gradient: {
+          cyberpunk: 'linear-gradient(135deg, #ff2e63 0%, #08d9d6 50%, #9d50bb 100%)',
+          retro: 'linear-gradient(135deg, #6a0dad 0%, #00b4d8 100%)',
+          neon: 'linear-gradient(135deg, #39ff14 0%, #ffd700 100%)',
         },
-        secondary: {
-          50: '#fef3c7',
-          100: '#fde68a',
-          200: '#fcd34d',
-          300: '#fbbf24',
-          400: '#f59e0b',
-          500: '#d97706',
-          600: '#b45309',
-          700: '#92400e',
-          800: '#78350f',
-          900: '#451a03',
-        },
-        success: '#10b981',
-        warning: '#f59e0b',
-        error: '#ef4444',
-        info: '#3b82f6',
-        // Boost colors
-        neon: '#39ff14',
-        gold: '#ffd700',
-        dark: {
-          bg: '#0f172a',
-          card: '#1e293b',
-          border: '#334155',
-          text: '#f1f5f9',
-        }
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['Inter'],
+        geek: ['"Press Start 2P"', 'cursive'], // Fuente estilo retro para títulos
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -71,22 +46,37 @@ module.exports = {
         'slide-down': 'slideDown 0.3s ease-out',
         'fade-in': 'fadeIn 0.5s ease-in',
         'scale-in': 'scaleIn 0.2s ease-out',
+        'cyber-glow': 'cyberGlow 3s ease-in-out infinite alternate',
       },
       keyframes: {
         glow: {
-          '0%': { 
+          '0%': {
             boxShadow: '0 0 5px rgba(57, 255, 20, 0.5)',
             transform: 'scale(1)'
           },
-          '50%': { 
+          '50%': {
             boxShadow: '0 0 10px rgba(57, 255, 20, 0.8)',
             transform: 'scale(1.05)'
           },
-          '100%': { 
+          '100%': {
             boxShadow: '0 0 15px rgba(57, 255, 20, 1)',
             transform: 'scale(1.1)'
           },
-        }
+        },
+        cyberGlow: {
+          '0%': {
+            boxShadow: '0 0 5px rgba(255, 46, 99, 0.5), 0 0 10px rgba(8, 217, 214, 0.5)',
+            transform: 'scale(1)'
+          },
+          '50%': {
+            boxShadow: '0 0 10px rgba(255, 46, 99, 0.8), 0 0 20px rgba(8, 217, 214, 0.8)',
+            transform: 'scale(1.02)'
+          },
+          '100%': {
+            boxShadow: '0 0 15px rgba(255, 46, 99, 1), 0 0 30px rgba(8, 217, 214, 1)',
+            transform: 'scale(1.05)'
+          },
+        },
       },
       backdropBlur: {
         xs: '2px',
@@ -96,14 +86,14 @@ module.exports = {
         xl: '16px',
       },
       boxShadow: {
-        glass: '0 8px 32px rgba(0, 0, 0, 0.1)',
-        glassHover: '0 8px 32px rgba(57, 255, 20, 0.15)',
         glow: '0 0 20px rgba(57, 255, 20, 0.3)',
+        cyber: '0 0 20px rgba(255, 46, 99, 0.3), 0 0 40px rgba(8, 217, 214, 0.2)',
+        neon: '0 0 10px rgba(57, 255, 20, 0.5), 0 0 20px rgba(57, 255, 20, 0.3)',
       },
       borderRadius: {
-        glass: '16px',
-        card: '12px',
-        button: '8px',
+        card: '16px',
+        button: '12px',
+        input: '12px',
       },
       spacing: {
         '18': '4.5rem',

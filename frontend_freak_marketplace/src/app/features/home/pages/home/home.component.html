@@ -1,29 +1,31 @@
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen bg-freak-dark">
   <!-- Header -->
-  <header class="bg-white shadow">
+  <header class="bg-freak-dark border-b border-freak-primary shadow-cyber">
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
+      <div class="flex justify-between h-16 items-center">
         <div class="flex items-center">
           <div class="flex-shrink-0 flex items-center">
-            <h1 class="text-2xl font-bold text-indigo-600">Freak Marketplace</h1>
+            <h1 class="text-2xl font-bold neon hover:animate-pulse transition-all">
+              🛍️ FreakMarket
+            </h1>
           </div>
         </div>
         <div class="flex items-center space-x-4">
           <button
             (click)="navigateToProducts()"
-            class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium"
+            class="text-freak-light hover:text-freak-secondary px-3 py-2 rounded-button text-sm font-medium transition-colors glow"
           >
             Productos
           </button>
           <button
             (click)="navigateToLogin()"
-            class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700"
+            class="bg-freak-primary text-freak-light hover:bg-freak-secondary px-4 py-2 rounded-button text-sm font-medium transition-colors"
           >
             Iniciar Sesión
           </button>
           <button
             (click)="navigateToRegister()"
-            class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-300"
+            class="bg-gradient-cyberpunk text-freak-dark hover:opacity-90 px-4 py-2 rounded-button text-sm font-medium transition-all cyberpunk"
           >
             Registrarse
           </button>
@@ -34,23 +36,24 @@
 
   <!-- Hero Section -->
   <main>
-    <div class="relative bg-gray-800 overflow-hidden">
-      <div class="max-w-7xl mx-auto">
-        <div class="relative z-10 pb-8 bg-gray-800 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+    <div class="relative bg-gradient-to-br from-freak-dark to-freak-primary overflow-hidden">
+      <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+      <div class="relative max-w-7xl mx-auto">
+        <div class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
           <div class="pt-10 mx-auto max-w-7xl px-4 sm:pt-12 sm:px-6 md:pt-16 lg:pt-20 lg:px-8 xl:pt-28">
             <div class="sm:text-center lg:text-left">
-              <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                <span class="block text-white">Compra y vende</span>
-                <span class="block text-indigo-400 text-5xl">artículos geek</span>
+              <h1 class="text-4xl tracking-tight font-extrabold text-freak-light sm:text-5xl md:text-6xl animate-fade-in">
+                <span class="block neon">Compra y vende</span>
+                <span class="block text-freak-accent text-5xl">artículos geek</span>
               </h1>
-              <p class="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+              <p class="mt-3 text-base text-freak-light sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0 animate-fade-in">
                 La marketplace definitiva para collectors, gamers y entusiastas del manga. Encuentra artículos raros, vende tus tesoros y conecta con apasionados como tú.
               </p>
-              <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+              <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start animate-fade-in">
                 <div class="rounded-md shadow">
                   <button
                     (click)="navigateToProducts()"
-                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
+                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-button text-freak-dark bg-gradient-cyberpunk hover:opacity-90 md:py-4 md:text-lg md:px-10 transition-all cyberpunk"
                   >
                     Explorar Productos
                   </button>
@@ -58,7 +61,7 @@
                 <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
                   <button
                     (click)="navigateToRegister()"
-                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10"
+                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-button text-freak-light bg-freak-secondary hover:bg-freak-accent md:py-4 md:text-lg md:px-10 transition-colors glow"
                   >
                     Únete Gratis
                   </button>
@@ -71,11 +74,11 @@
     </div>
 
     <!-- Features Section -->
-    <div class="py-12 bg-white">
+    <div class="py-12 bg-freak-dark">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="lg:text-center">
-          <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Características</h2>
-          <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          <h2 class="text-base text-freak-accent font-semibold tracking-wide uppercase">Características</h2>
+          <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-freak-light sm:text-4xl animate-fade-in">
             Todo lo que necesitas en una marketplace geek
           </p>
         </div>
@@ -83,40 +86,40 @@
         <div class="mt-10">
           <div class="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
             <!-- Feature 1 -->
-            <div class="relative">
-              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mb-4">
+            <div class="relative card animate-fade-in">
+              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-freak-primary text-freak-light mb-4 glow">
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
-              <h3 class="text-lg leading-6 font-medium text-gray-900">Búsqueda Avanzada</h3>
-              <p class="mt-2 text-base text-gray-500">
+              <h3 class="text-lg leading-6 font-medium text-freak-light">Búsqueda Avanzada</h3>
+              <p class="mt-2 text-base text-freak-light">
                 Encuentra exactamente lo que buscas con nuestro sistema de filtrado por categorías, estado y precio.
               </p>
             </div>
 
             <!-- Feature 2 -->
-            <div class="relative">
-              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mb-4">
+            <div class="relative card animate-fade-in">
+              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-freak-primary text-freak-light mb-4 glow">
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                 </svg>
               </div>
-              <h3 class="text-lg leading-6 font-medium text-gray-900">Pagos Seguros</h3>
-              <p class="mt-2 text-base text-gray-500">
+              <h3 class="text-lg leading-6 font-medium text-freak-light">Pagos Seguros</h3>
+              <p class="mt-2 text-base text-freak-light">
                 Transacciones protegidas con múltiples métodos de pago y sistema de escrow para tu tranquilidad.
               </p>
             </div>
 
             <!-- Feature 3 -->
-            <div class="relative">
-              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mb-4">
+            <div class="relative card animate-fade-in">
+              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-freak-primary text-freak-light mb-4 glow">
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
               </div>
-              <h3 class="text-lg leading-6 font-medium text-gray-900">Chat Integrado</h3>
-              <p class="mt-2 text-base text-gray-500">
+              <h3 class="text-lg leading-6 font-medium text-freak-light">Chat Integrado</h3>
+              <p class="mt-2 text-base text-freak-light">
                 Comunícate directamente con vendedores y compradores a través de nuestro sistema de chat en tiempo real.
               </p>
             </div>

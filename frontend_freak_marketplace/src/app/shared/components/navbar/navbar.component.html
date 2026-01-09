@@ -1,36 +1,39 @@
-<nav class="bg-white shadow-lg sticky top-0 z-50">
+<nav class="bg-freak-dark border-b border-freak-primary shadow-cyber sticky top-0 z-50 backdrop-blur-sm">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between h-16">
+    <div class="flex justify-between h-16 items-center">
       <!-- Logo and main nav -->
-      <div class="flex">
+      <div class="flex items-center space-x-8">
         <!-- Logo -->
         <div class="flex-shrink-0 flex items-center">
-          <a routerLink="/home" class="text-2xl font-bold text-primary-600 hover:text-primary-700 transition-colors">
+          <a routerLink="/home" class="text-2xl font-bold neon hover:animate-pulse transition-all">
             🛍️ FreakMarket
           </a>
         </div>
 
         <!-- Desktop navigation -->
-        <div class="hidden sm:ml-6 sm:flex sm:space-x-8 sm:items-center">
-          <a 
-            routerLink="/home" 
-            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors"
-            routerLinkActive="border-primary-500 text-gray-900"
+        <div class="hidden md:flex items-center space-x-6">
+          <a
+            routerLink="/home"
+            class="text-freak-light hover:text-freak-secondary transition-colors relative group"
+            routerLinkActive="text-freak-accent"
           >
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-freak-secondary transition-all group-hover:w-full"></span>
             Inicio
           </a>
-          <a 
-            routerLink="/products" 
-            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors"
-            routerLinkActive="border-primary-500 text-gray-900"
+          <a
+            routerLink="/products"
+            class="text-freak-light hover:text-freak-secondary transition-colors relative group"
+            routerLinkActive="text-freak-accent"
           >
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-freak-secondary transition-all group-hover:w-full"></span>
             Productos
           </a>
-          <a 
-            routerLink="/categories" 
-            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors"
-            routerLinkActive="border-primary-500 text-gray-900"
+          <a
+            routerLink="/categories"
+            class="text-freak-light hover:text-freak-secondary transition-colors relative group"
+            routerLinkActive="text-freak-accent"
           >
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-freak-secondary transition-all group-hover:w-full"></span>
             Categorías
           </a>
         </div>
@@ -39,30 +42,37 @@
       <!-- Right side buttons -->
       <div class="flex items-center space-x-4">
         <!-- Search bar (desktop) -->
-        <div class="hidden md:block">
-          <input 
-            type="text" 
-            placeholder="Buscar productos..." 
-            class="w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            (keyup.enter)="onSearch($event)"
-            [(ngModel)]="searchQuery"
-          >
+        <div class="hidden lg:block">
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="Buscar productos..."
+              class="w-64 px-4 py-2 border border-freak-primary rounded-input focus:ring-2 focus:ring-freak-secondary focus:border-transparent bg-freak-dark text-freak-light"
+              (keyup.enter)="onSearch($event)"
+              [(ngModel)]="searchQuery"
+            >
+            <button class="absolute right-2 top-1/2 transform -translate-y-1/2 text-freak-light hover:text-freak-secondary">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </button>
+          </div>
         </div>
 
         <!-- User menu -->
         <div class="flex items-center space-x-2" *ngIf="isAuthenticated$ | async; else guestMenu">
           <!-- Chat notifications -->
-          <button 
+          <button
             (click)="navigateToChat()"
-            class="relative p-2 text-gray-600 hover:text-primary-600 transition-colors"
+            class="relative p-2 text-freak-light hover:text-freak-secondary transition-colors"
           >
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
             </svg>
-            <span 
+            <span
               *ngIf="unreadCount$ | async as unreadCount; else noNotifications"
               [class.hidden]="!unreadCount || unreadCount === null || unreadCount === 0"
-              class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+              class="absolute -top-1 -right-1 bg-freak-danger text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-pulse"
             >
               {{ unreadCount }}
             </span>
@@ -73,19 +83,19 @@
 
           <!-- User dropdown -->
           <div class="relative">
-            <button 
+            <button
               (click)="toggleUserMenu()"
-              class="flex items-center space-x-2 text-gray-700 hover:text-primary-600 transition-colors"
+              class="flex items-center space-x-2 text-freak-light hover:text-freak-secondary transition-colors glow"
             >
-              <img 
+              <img
                 *ngIf="currentUser$ | async as user; else avatarPlaceholder"
-                [src]="user?.avatar_url || '/assets/default-avatar.png'" 
+                [src]="user?.avatar_url || '/assets/default-avatar.png'"
                 [alt]="user?.username || 'User'"
-                class="h-8 w-8 rounded-full"
+                class="h-8 w-8 rounded-full border-2 border-freak-primary"
               >
               <ng-template #avatarPlaceholder>
-                <div class="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center">
-                  <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                <div class="h-8 w-8 rounded-full bg-freak-primary flex items-center justify-center">
+                  <svg class="w-5 h-5 text-freak-light" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
                   </svg>
                 </div>
@@ -94,28 +104,28 @@
                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
               </svg>
             </button>
-            
+
             <!-- User dropdown menu -->
-            <div 
-              *ngIf="isUserMenuOpen" 
-              class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
+            <div
+              *ngIf="isUserMenuOpen"
+              class="absolute right-0 mt-2 w-48 bg-freak-dark border border-freak-primary rounded-card shadow-cyber py-1 z-50 animate-slide-down"
               (click)="closeUserMenu()"
             >
-              <a 
-                routerLink="/profile" 
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+              <a
+                routerLink="/profile"
+                class="block px-4 py-2 text-sm text-freak-light hover:bg-freak-primary hover:text-freak-light transition-colors"
               >
                 👤 Mi Perfil
               </a>
-              <a 
-                routerLink="/dashboard" 
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+              <a
+                routerLink="/dashboard"
+                class="block px-4 py-2 text-sm text-freak-light hover:bg-freak-primary hover:text-freak-light transition-colors"
               >
                 📊 Dashboard
               </a>
-              <button 
+              <button
                 (click)="logout()"
-                class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition-colors"
+                class="block w-full text-left px-4 py-2 text-sm text-freak-danger hover:bg-freak-danger hover:text-freak-light transition-colors"
               >
                 🚪 Cerrar Sesión
               </button>
@@ -126,15 +136,15 @@
         <!-- Guest menu -->
         <ng-template #guestMenu>
           <div class="flex items-center space-x-4">
-            <a 
-              routerLink="/auth/login" 
-              class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+            <a
+              routerLink="/auth/login"
+              class="text-freak-light hover:text-freak-secondary px-3 py-2 rounded-button text-sm font-medium transition-colors glow"
             >
               Iniciar Sesión
             </a>
-            <a 
-              routerLink="/auth/register" 
-              class="bg-primary-600 text-white hover:bg-primary-700 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+            <a
+              routerLink="/auth/register"
+              class="bg-gradient-cyberpunk text-freak-dark hover:opacity-90 px-4 py-2 rounded-button text-sm font-medium transition-all cyberpunk"
             >
               Registrarse
             </a>
@@ -142,10 +152,10 @@
         </ng-template>
 
         <!-- Mobile menu button -->
-        <div class="flex items-center sm:hidden">
-          <button 
+        <div class="flex items-center md:hidden">
+          <button
             (click)="toggleMobileMenu()"
-            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+            class="inline-flex items-center justify-center p-2 rounded-button text-freak-light hover:text-freak-secondary hover:bg-freak-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-freak-secondary"
           >
             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -156,64 +166,71 @@
     </div>
 
     <!-- Mobile menu -->
-    <div class="sm:hidden" *ngIf="isMobileMenuOpen">
+    <div class="md:hidden" *ngIf="isMobileMenuOpen">
       <div class="pt-2 pb-3 space-y-1">
-        <a 
-          routerLink="/home" 
-          class="border-transparent text-gray-600 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium transition-colors"
-          routerLinkActive="border-primary-500 text-primary-700 bg-primary-50"
+        <a
+          routerLink="/home"
+          class="border-transparent text-freak-light hover:border-freak-secondary hover:text-freak-secondary block pl-3 pr-4 py-2 border-l-4 text-base font-medium transition-colors"
+          routerLinkActive="border-freak-accent text-freak-accent bg-freak-primary"
         >
           Inicio
         </a>
-        <a 
-          routerLink="/products" 
-          class="border-transparent text-gray-600 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium transition-colors"
-          routerLinkActive="border-primary-500 text-primary-700 bg-primary-50"
+        <a
+          routerLink="/products"
+          class="border-transparent text-freak-light hover:border-freak-secondary hover:text-freak-secondary block pl-3 pr-4 py-2 border-l-4 text-base font-medium transition-colors"
+          routerLinkActive="border-freak-accent text-freak-accent bg-freak-primary"
         >
           Productos
         </a>
-        <a 
-          routerLink="/categories" 
-          class="border-transparent text-gray-600 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium transition-colors"
-          routerLinkActive="border-primary-500 text-primary-700 bg-primary-50"
+        <a
+          routerLink="/categories"
+          class="border-transparent text-freak-light hover:border-freak-secondary hover:text-freak-secondary block pl-3 pr-4 py-2 border-l-4 text-base font-medium transition-colors"
+          routerLinkActive="border-freak-accent text-freak-accent bg-freak-primary"
         >
           Categorías
         </a>
-        
+
         <!-- Mobile search -->
         <div class="px-4 py-2">
-          <input 
-            type="text" 
-            placeholder="Buscar productos..." 
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            (keyup.enter)="onMobileSearch($event)"
-            [(ngModel)]="searchQuery"
-          >
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="Buscar productos..."
+              class="w-full px-4 py-2 border border-freak-primary rounded-input focus:ring-2 focus:ring-freak-secondary focus:border-transparent bg-freak-dark text-freak-light"
+              (keyup.enter)="onMobileSearch($event)"
+              [(ngModel)]="searchQuery"
+            >
+            <button class="absolute right-2 top-1/2 transform -translate-y-1/2 text-freak-light hover:text-freak-secondary">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </button>
+          </div>
         </div>
 
         <!-- Mobile auth buttons -->
         <div class="px-4 py-2 space-y-2" *ngIf="isAuthenticated$ | async; else mobileGuestMenu">
-          <button 
+          <button
             (click)="navigateToChat()"
-            class="w-full text-left text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+            class="w-full text-left text-freak-light hover:text-freak-secondary px-3 py-2 rounded-button text-sm font-medium transition-colors"
           >
             💬 Chat
           </button>
-          <button 
+          <button
             (click)="navigateToDashboard()"
-            class="w-full text-left text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+            class="w-full text-left text-freak-light hover:text-freak-secondary px-3 py-2 rounded-button text-sm font-medium transition-colors"
           >
             📊 Dashboard
           </button>
-          <button 
+          <button
             (click)="navigateToProfile()"
-            class="w-full text-left text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+            class="w-full text-left text-freak-light hover:text-freak-secondary px-3 py-2 rounded-button text-sm font-medium transition-colors"
           >
             👤 Mi Perfil
           </button>
-          <button 
+          <button
             (click)="logout()"
-            class="w-full text-left text-red-600 hover:text-red-700 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+            class="w-full text-left text-freak-danger hover:text-freak-danger px-3 py-2 rounded-button text-sm font-medium transition-colors"
           >
             🚪 Cerrar Sesión
           </button>
@@ -221,15 +238,15 @@
 
         <ng-template #mobileGuestMenu>
           <div class="px-4 py-2 space-y-2">
-            <a 
-              routerLink="/auth/login" 
-              class="block w-full text-left text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+            <a
+              routerLink="/auth/login"
+              class="block w-full text-left text-freak-light hover:text-freak-secondary px-3 py-2 rounded-button text-sm font-medium transition-colors"
             >
               Iniciar Sesión
             </a>
-            <a 
-              routerLink="/auth/register" 
-              class="block w-full bg-primary-600 text-white hover:bg-primary-700 px-3 py-2 rounded-md text-sm font-medium transition-colors text-center"
+            <a
+              routerLink="/auth/register"
+              class="block w-full bg-gradient-cyberpunk text-freak-dark hover:opacity-90 px-3 py-2 rounded-button text-sm font-medium transition-all cyberpunk text-center"
             >
               Registrarse
             </a>
