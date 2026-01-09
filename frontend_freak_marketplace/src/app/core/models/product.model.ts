@@ -7,6 +7,7 @@ export interface Product {
     first_name: string;
     last_name: string;
   };
+  
   category: Category;
   title: string;
   description: string;
