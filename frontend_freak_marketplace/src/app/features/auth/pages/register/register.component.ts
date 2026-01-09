@@ -1,38 +1,42 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
-import { RegisterRequest } from '../../../../core/models/user.model';
+import { passwordStrengthValidator, usernameValidator, urlValidator, matchingFieldsValidator } from '../../../../core/validators/common.validators';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule]
 })
 export class RegisterComponent {
-  formData: RegisterRequest = {
-    username: '',
-    email: '',
-    password: '',
-    password2: '',
-    first_name: '',
-    last_name: ''
-  };
+  registerForm: FormGroup;
   isLoading = false;
   errorMessage = '';
   successMessage = '';
 
   constructor(
+    private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) {
+    this.registerForm = this.fb.group({
+      username: ['', [usernameValidator()]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, passwordStrengthValidator()]],
+      password2: ['', [Validators.required, matchingFieldsValidator('password')]],
+      first_name: ['', [Validators.maxLength(30)]],
+      last_name: ['', [Validators.maxLength(30)]]
+    });
+  }
+
 
   onSubmit(): void {
-    if (this.formData.password !== this.formData.password2) {
-      this.errorMessage = 'Las contraseñas no coinciden';
+    if (this.registerForm.invalid) {
+      this.markFormGroupTouched(this.registerForm);
       return;
     }
 
@@ -40,7 +44,9 @@ export class RegisterComponent {
     this.errorMessage = '';
     this.successMessage = '';
 
-    this.authService.register(this.formData).subscribe({
+    const formData = this.registerForm.value;
+    
+    this.authService.register(formData).subscribe({
       next: (response) => {
         this.successMessage = 'Registro exitoso. Redirigiendo al login...';
         setTimeout(() => {
@@ -48,7 +54,8 @@ export class RegisterComponent {
         }, 2000);
       },
       error: (error) => {
-        this.errorMessage = error.error?.detail || 'Error en el registro. Inténtalo nuevamente.';
+        console.error('Registration error:', error);
+        this.errorMessage = this.getErrorMessage(error);
         this.isLoading = false;
       },
       complete: () => {
@@ -57,7 +64,40 @@ export class RegisterComponent {
     });
   }
 
+  private getErrorMessage(error: any): string {
+    if (error.error) {
+      // Handle field-specific errors
+      if (typeof error.error === 'object') {
+        const errors = [];
+        if (error.error.username) errors.push(`Usuario: ${error.error.username.join(', ')}`);
+        if (error.error.email) errors.push(`Email: ${error.error.email.join(', ')}`);
+        if (error.error.password) errors.push(`Contraseña: ${error.error.password.join(', ')}`);
+        if (error.error.non_field_errors) errors.push(error.error.non_field_errors.join(', '));
+        if (errors.length > 0) return errors.join(' | ');
+      }
+      // Handle single error message
+      if (error.error.detail) return error.error.detail;
+      if (error.error.error) return error.error.error;
+    }
+    return 'Error en el registro. Inténtalo nuevamente.';
+  }
+
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      control.updateValueAndValidity();
+    });
+  }
+
   goToLogin(): void {
     this.router.navigate(['/auth/login']);
   }
+
+  // Helper methods for template
+  get usernameControl() { return this.registerForm.get('username'); }
+  get emailControl() { return this.registerForm.get('email'); }
+  get passwordControl() { return this.registerForm.get('password'); }
+  get password2Control() { return this.registerForm.get('password2'); }
+  get firstNameControl() { return this.registerForm.get('first_name'); }
+  get lastNameControl() { return this.registerForm.get('last_name'); }
 }

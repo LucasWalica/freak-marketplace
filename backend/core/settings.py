@@ -43,9 +43,21 @@ SPECTACULAR_SETTINGS = {
     'COMPONENT_SPLIT_PATCH': True,
 }
 
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWED_ORIGINS = ["http://localhost:4200"]
-
+# Configuración CORS para desarrollo con Docker
+CORS_ALLOW_ALL_ORIGINS = False  # Más seguro que True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",  # Desarrollo local
+    "http://localhost:80",     # Docker frontend
+    "http://frontend:4200",   # Docker networking
+    "http://127.0.0.1:4200", # Alternativa localhost
+]
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:4200",
+    "http://localhost:80",
+    "http://frontend:4200",
+    "http://127.0.0.1:4200",
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -101,9 +113,9 @@ CELERY_BEAT_SCHEDULE = {}
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -161,10 +173,8 @@ DATABASES = {
 }
 
 
-STATIC_URL = 'static/'
-
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
@@ -202,8 +212,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-
-STATIC_URL = 'static/'
+# (Nota: STATIC_URL ya está definido arriba)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

@@ -36,18 +36,19 @@ export class AuthService {
     });
   }
 
-  login(credentials: LoginRequest): Observable<AuthResponse> {
-    return this.apiService.post<AuthResponse>('/users/login/', credentials).pipe(
+  login(credentials: LoginRequest): Observable<any> {
+    return this.apiService.post<any>('/users/login/', credentials).pipe(
       tap(response => {
         this.handleAuthSuccess(response);
       })
     );
   }
 
-  register(userData: RegisterRequest): Observable<AuthResponse> {
-    return this.apiService.post<AuthResponse>('/users/register/', userData).pipe(
+  register(userData: RegisterRequest): Observable<any> {
+    return this.apiService.post<any>('/users/register/', userData).pipe(
       tap(response => {
-        this.handleAuthSuccess(response);
+        // For registration, we don't automatically log in the user
+        // Just show success message and redirect to login
       })
     );
   }
@@ -91,7 +92,7 @@ export class AuthService {
     return this.apiService.get<Profile>(`/users/profile/${profileId}/`);
   }
 
-  private handleAuthSuccess(response: AuthResponse): void {
+  private handleAuthSuccess(response: any): void {
     // Las cookies son manejadas automáticamente por el navegador a través de las respuestas HTTP
     // Solo actualizamos el estado
     this.currentUserSubject.next(response.user);

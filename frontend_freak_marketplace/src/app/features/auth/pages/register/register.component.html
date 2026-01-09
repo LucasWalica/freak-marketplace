@@ -25,7 +25,7 @@
         {{ errorMessage }}
       </div>
 
-      <form (ngSubmit)="onSubmit()" class="space-y-6">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label for="first_name" class="block text-sm font-medium text-gray-700">
@@ -35,10 +35,19 @@
               id="first_name"
               name="first_name"
               type="text"
-              [(ngModel)]="formData.first_name"
-              required
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+              formControlName="first_name"
+              class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+              [ngClass]="{
+                'border-red-300 focus:ring-red-200 focus:border-red-500': firstNameControl?.touched && firstNameControl?.invalid,
+                'border-gray-300': !(firstNameControl?.touched && firstNameControl?.invalid)
+              }"
             >
+            <div 
+              *ngIf="firstNameControl?.touched && firstNameControl?.invalid"
+              class="mt-1 text-xs text-red-600 font-medium"
+            >
+              <span *ngIf="firstNameControl?.errors?.['maxlength']">El nombre no puede exceder 30 caracteres.</span>
+            </div>
           </div>
 
           <div>
@@ -49,73 +58,131 @@
               id="last_name"
               name="last_name"
               type="text"
-              [(ngModel)]="formData.last_name"
-              required
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+              formControlName="last_name"
+              class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+              [ngClass]="{
+                'border-red-300 focus:ring-red-200 focus:border-red-500': lastNameControl?.touched && lastNameControl?.invalid,
+                'border-gray-300': !(lastNameControl?.touched && lastNameControl?.invalid)
+              }"
             >
+            <div 
+              *ngIf="lastNameControl?.touched && lastNameControl?.invalid"
+              class="mt-1 text-xs text-red-600 font-medium"
+            >
+              <span *ngIf="lastNameControl?.errors?.['maxlength']">El apellido no puede exceder 30 caracteres.</span>
+            </div>
           </div>
         </div>
 
         <div>
           <label for="username" class="block text-sm font-medium text-gray-700">
-            Nombre de usuario
+            Nombre de usuario <span class="text-red-500">*</span>
           </label>
           <input
             id="username"
             name="username"
             type="text"
-            [(ngModel)]="formData.username"
-            required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            formControlName="username"
+            placeholder="Ej: usuario123"
+            class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            [ngClass]="{
+              'border-red-300 focus:ring-red-200 focus:border-red-500': usernameControl?.touched && usernameControl?.invalid,
+              'border-gray-300': !(usernameControl?.touched && usernameControl?.invalid)
+            }"
           >
+          <div 
+            *ngIf="usernameControl?.touched && usernameControl?.invalid"
+            class="mt-1 text-xs text-red-600 font-medium"
+          >
+            <span *ngIf="usernameControl?.errors?.['required']">{{ usernameControl?.errors?.['required'] }}</span>
+            <span *ngIf="usernameControl?.errors?.['minlength']">{{ usernameControl?.errors?.['minlength'] }}</span>
+            <span *ngIf="usernameControl?.errors?.['maxlength']">{{ usernameControl?.errors?.['maxlength'] }}</span>
+            <span *ngIf="usernameControl?.errors?.['pattern']">{{ usernameControl?.errors?.['pattern'] }}</span>
+          </div>
         </div>
 
         <div>
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Correo electrónico
+            Correo electrónico <span class="text-red-500">*</span>
           </label>
           <input
             id="email"
             name="email"
             type="email"
-            [(ngModel)]="formData.email"
-            required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            formControlName="email"
+            placeholder="correo@ejemplo.com"
+            class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            [ngClass]="{
+              'border-red-300 focus:ring-red-200 focus:border-red-500': emailControl?.touched && emailControl?.invalid,
+              'border-gray-300': !(emailControl?.touched && emailControl?.invalid)
+            }"
           >
+          <div 
+            *ngIf="emailControl?.touched && emailControl?.invalid"
+            class="mt-1 text-xs text-red-600 font-medium"
+          >
+            <span *ngIf="emailControl?.errors?.['required']">El email es obligatorio.</span>
+            <span *ngIf="emailControl?.errors?.['email']">Ingresa un email válido.</span>
+          </div>
         </div>
 
         <div>
           <label for="password" class="block text-sm font-medium text-gray-700">
-            Contraseña
+            Contraseña <span class="text-red-500">*</span>
           </label>
           <input
             id="password"
             name="password"
             type="password"
-            [(ngModel)]="formData.password"
-            required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            formControlName="password"
+            placeholder="Mínimo 8 caracteres, mayúscula y número"
+            class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            [ngClass]="{
+              'border-red-300 focus:ring-red-200 focus:border-red-500': passwordControl?.touched && passwordControl?.invalid,
+              'border-gray-300': !(passwordControl?.touched && passwordControl?.invalid)
+            }"
           >
+          <div 
+            *ngIf="passwordControl?.touched && passwordControl?.invalid"
+            class="mt-1 text-xs text-red-600 font-medium"
+          >
+            <span *ngIf="passwordControl?.errors?.['required']">La contraseña es obligatoria.</span>
+            <span *ngIf="passwordControl?.errors?.['minLength']">{{ passwordControl?.errors?.['minLength'] }}</span>
+            <span *ngIf="passwordControl?.errors?.['uppercase']">{{ passwordControl?.errors?.['uppercase'] }}</span>
+            <span *ngIf="passwordControl?.errors?.['digit']">{{ passwordControl?.errors?.['digit'] }}</span>
+            <span *ngIf="passwordControl?.errors?.['lowercase']">{{ passwordControl?.errors?.['lowercase'] }}</span>
+          </div>
         </div>
 
         <div>
           <label for="password2" class="block text-sm font-medium text-gray-700">
-            Confirmar contraseña
+            Confirmar contraseña <span class="text-red-500">*</span>
           </label>
           <input
             id="password2"
             name="password2"
             type="password"
-            [(ngModel)]="formData.password2"
-            required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            formControlName="password2"
+            placeholder="Repite tu contraseña"
+            class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            [ngClass]="{
+              'border-red-300 focus:ring-red-200 focus:border-red-500': password2Control?.touched && password2Control?.invalid,
+              'border-gray-300': !(password2Control?.touched && password2Control?.invalid)
+            }"
           >
+          <div 
+            *ngIf="password2Control?.touched && password2Control?.invalid"
+            class="mt-1 text-xs text-red-600 font-medium"
+          >
+            <span *ngIf="password2Control?.errors?.['required']">Confirma tu contraseña.</span>
+            <span *ngIf="password2Control?.errors?.['passwordMismatch']">{{ password2Control?.errors?.['passwordMismatch'] }}</span>
+          </div>
         </div>
 
         <div>
           <button
             type="submit"
-            [disabled]="isLoading"
+            [disabled]="registerForm.invalid || isLoading"
             class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <span *ngIf="isLoading" class="mr-2">

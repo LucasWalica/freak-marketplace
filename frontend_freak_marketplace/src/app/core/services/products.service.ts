@@ -3,9 +3,11 @@ import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { 
   Product, 
-  ProductFilters, 
+  Category, 
+  ProductFilter, 
   ProductCreateRequest, 
   ProductUpdateRequest, 
+  BoostPurchaseRequest,
   PaginatedProductsResponse 
 } from '../models/product.model';
 
@@ -15,7 +17,7 @@ import {
 export class ProductsService {
   constructor(private apiService: ApiService) {}
 
-  getProducts(filters?: ProductFilters): Observable<PaginatedProductsResponse> {
+  getProducts(filters?: ProductFilter): Observable<PaginatedProductsResponse> {
     return this.apiService.get<PaginatedProductsResponse>('/products/products/', filters);
   }
 
@@ -23,7 +25,7 @@ export class ProductsService {
     return this.apiService.get<Product>(`/products/products/${id}/`);
   }
 
-  getMyProducts(filters?: ProductFilters): Observable<PaginatedProductsResponse> {
+  getMyProducts(filters?: ProductFilter): Observable<PaginatedProductsResponse> {
     return this.apiService.get<PaginatedProductsResponse>('/products/my-products/', filters);
   }
 
@@ -48,17 +50,21 @@ export class ProductsService {
     return this.apiService.upload<{ urls: string[] }>('/products/upload-images/', formData);
   }
 
-  searchProducts(query: string, filters?: ProductFilters): Observable<PaginatedProductsResponse> {
+  searchProducts(query: string, filters?: ProductFilter): Observable<PaginatedProductsResponse> {
     const searchFilters = { ...filters, search: query };
     return this.getProducts(searchFilters);
   }
 
-  getProductsByCategory(categoryId: string, filters?: ProductFilters): Observable<PaginatedProductsResponse> {
+  getProductsByCategory(categoryId: string, filters?: ProductFilter): Observable<PaginatedProductsResponse> {
     const categoryFilters = { ...filters, category: categoryId };
     return this.getProducts(categoryFilters);
   }
 
   getBoostedProducts(): Observable<PaginatedProductsResponse> {
     return this.getProducts({ boost_type: 'NEON' });
+  }
+
+  purchaseBoost(request: BoostPurchaseRequest): Observable<any> {
+    return this.apiService.post<any>('/products/purchase-boost/', request);
   }
 }

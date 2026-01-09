@@ -40,7 +40,7 @@ export class ProductCardComponent {
   }
 
   getBoostClass(): string {
-    if (this.product.is_boost_active) {
+    if (this.product.boost_type !== 'NONE') {
       switch (this.product.boost_type) {
         case 'NEON':
           return 'animate-glow border-neon';

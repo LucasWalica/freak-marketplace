@@ -1,19 +1,17 @@
-export interface Category {
-  id: string;
-  name: { [key: string]: string };
-  slug: string;
-  schema: string[];
-  icon: string;
-}
-
 export interface Product {
   id: string;
-  seller: number;
+  seller: {
+    id: number;
+    username: string;
+    email: string;
+    first_name: string;
+    last_name: string;
+  };
   category: Category;
   title: string;
   description: string;
   price: number;
-  specifications: { [key: string]: string };
+  specifications: Record<string, any>;
   images: string[];
   is_boosted: boolean;
   boost_type: 'NONE' | 'NEON' | 'GOLD';
@@ -21,29 +19,51 @@ export interface Product {
   status: 'AVAILABLE' | 'RESERVED' | 'SOLD';
   created_at: string;
   updated_at: string;
-  is_boost_active?: boolean;
 }
 
-export interface ProductFilters {
+export interface Category {
+  id: string;
+  name: Record<string, string>; // multilenguaje: {"es": "Cartas Pokémon", "en": "Pokémon Cards"}
+  slug: string;
+  schema: string[]; // ["Estado", "Rareza", "Idioma", "Edición"]
+  icon: string;
+}
+
+export interface ProductFilter {
   category?: string;
   status?: string;
   boost_type?: string;
+  min_price?: number;
+  max_price?: number;
   search?: string;
-  ordering?: string;
-  page?: number;
-  page_size?: number;
+  ordering?: '-created_at' | '-price' | 'price' | 'is_boosted' | '-updated_at';
 }
 
 export interface ProductCreateRequest {
-  category: string;
   title: string;
   description: string;
   price: number;
-  specifications: { [key: string]: string };
+  category: string;
+  specifications: Record<string, any>;
   images: string[];
+  boost_type: 'NONE' | 'NEON' | 'GOLD';
 }
 
-export type ProductUpdateRequest = Partial<ProductCreateRequest>;
+export interface ProductUpdateRequest {
+  title?: string;
+  description?: string;
+  price?: number;
+  category?: string;
+  specifications?: Record<string, any>;
+  images?: string[];
+  status?: 'AVAILABLE' | 'RESERVED' | 'SOLD';
+}
+
+export interface BoostPurchaseRequest {
+  product_id: string;
+  boost_type: 'NEON' | 'GOLD';
+  duration_days: number;
+}
 
 export interface PaginatedProductsResponse {
   count: number;

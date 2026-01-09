@@ -29,15 +29,23 @@ class UserCreateView(generics.CreateAPIView):
         user = serializer.save()
 
         if not user:
-            return Response({'error':"invalid credentialds"}, status=401)
+            return Response({'error':"invalid credentials"}, status=401)
 
-        token, created = Token.objects.get_or_create(user=user)
+        # Create profile for the new user
+        try:
+            Profile.objects.get_or_create(user=user)
+        except Exception as e:
+            # Log the error but don't fail the registration
+            print(f"Error creating profile: {e}")
+
         return Response({
-            "token":token.key,
+            "message": "Usuario creado exitosamente",
             "user": {
                 "id": user.id,
                 "username": user.username,
                 "email": user.email,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
             },
         }, status=201)
     
@@ -45,17 +53,40 @@ class UserCreateView(generics.CreateAPIView):
 class LoginView(APIView):
     permission_classes = [AllowAny]
     def post(self, request, *args, **kwargs):
-        username = request.data.get("email")
+        username = request.data.get("username")  # Cambiado de "email" a "username"
         password = request.data.get("password")
 
-        user = authenticate(username=username, password=password)
+        if not username or not password:
+            return Response({
+                "error": "Se requieren usuario y contraseña"
+            }, status=400)
+
+        # Try to authenticate with username first, then with email
+        user = None
+        try:
+            # First try with username
+            user = authenticate(username=username, password=password)
+        except:
+            pass
         
+        if user is None:
+            # If username fails, try with email
+            try:
+                user_obj = User.objects.get(email=username)
+                user = authenticate(username=user_obj.username, password=password)
+            except User.DoesNotExist:
+                pass
 
         if user is not None:
             access = AccessToken.for_user(user)
-            refresh = AccessToken.for_user(user)
             response = JsonResponse({
-                "user": UserSerializer(user).data,
+                "user": {
+                    "id": user.id,
+                    "username": user.username,
+                    "email": user.email,
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                },
                 "message": "Login successful"
             })      
             # Cookie JWT Django
@@ -70,7 +101,9 @@ class LoginView(APIView):
             )
             return response
         else:
-            return Response({"error": "Invalid credentials"}, status=401)
+            return Response({
+                "error": "Credenciales inválidas"
+            }, status=401)
 #logout 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]

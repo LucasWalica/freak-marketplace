@@ -1,116 +1,114 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductsService } from '../../../../core/services/products.service';
-import { CategoriesService } from '../../../../core/services/categories.service';
-import { ProductCardComponent } from '../../../../shared/components/product-card/product-card.component';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { ProductsService } from '../../../../core/services/products.service';
+import { Product, ProductFilter } from '../../../../core/models/product.model';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css'],
   standalone: true,
-  imports: [CommonModule, ProductCardComponent, FormsModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule]
 })
 export class ProductListComponent implements OnInit {
-  products: any[] = [];
-  categories: any[] = [];
-  isLoading = true;
+  products: Product[] = [];
+  isLoading = false;
+  errorMessage = '';
   currentPage = 1;
   totalPages = 1;
-  totalCount = 0;
-  selectedCategory: string = '';
-  searchQuery: string = '';
-  sortBy: string = '-created_at';
-  priceRange: { min: number; max: number } = { min: 0, max: 10000 };
+  hasNext = false;
+  hasPrevious = false;
+
+  filterForm: FormGroup;
+  searchQuery = '';
 
   constructor(
+    private fb: FormBuilder,
     private productsService: ProductsService,
-    private categoriesService: CategoriesService
-  ) {}
+    private router: Router
+  ) {
+    this.filterForm = this.fb.group({
+      category: [''],
+      status: [''],
+      boost_type: [''],
+      min_price: [null],
+      max_price: [null],
+      ordering: ['-created_at']
+    });
+  }
 
   ngOnInit(): void {
-    this.loadCategories();
     this.loadProducts();
   }
 
-  loadCategories(): void {
-    this.categoriesService.getCategories().subscribe({
-      next: (categories: any) => {
-        this.categories = categories;
-      },
-      error: (error: any) => {
-        console.error('Error loading categories:', error);
-      }
-    });
-  }
-
-  loadProducts(): void {
+  loadProducts(page: number = 1): void {
     this.isLoading = true;
-    const filters = {
-      page: this.currentPage,
-      category: this.selectedCategory,
-      search: this.searchQuery,
-      ordering: this.sortBy,
-      price_min: this.priceRange.min,
-      price_max: this.priceRange.max
-    };
+    this.errorMessage = '';
 
+    const filters = this.getFilters();
+    
     this.productsService.getProducts(filters).subscribe({
-      next: (response: any) => {
+      next: (response) => {
         this.products = response.results;
-        this.totalPages = Math.ceil(response.count / 12);
-        this.totalCount = response.count;
+        this.currentPage = page;
+        this.totalPages = Math.ceil(response.count / 12); // Assuming 12 items per page
+        this.hasNext = response.next !== null;
+        this.hasPrevious = page > 1;
         this.isLoading = false;
       },
-      error: (error: any) => {
-        console.error('Error loading products:', error);
+      error: (error) => {
+        this.errorMessage = 'Error al cargar productos. Intenta nuevamente.';
         this.isLoading = false;
       }
     });
   }
 
-  onCategoryChange(categoryId: string): void {
-    this.selectedCategory = categoryId;
-    this.currentPage = 1;
-    this.loadProducts();
+  getFilters(): ProductFilter {
+    const formValues = this.filterForm.value;
+    const filters: ProductFilter = {};
+
+    if (formValues.category) filters.category = formValues.category;
+    if (formValues.status) filters.status = formValues.status;
+    if (formValues.boost_type) filters.boost_type = formValues.boost_type;
+    if (formValues.min_price) filters.min_price = formValues.min_price;
+    if (formValues.max_price) filters.max_price = formValues.max_price;
+    if (formValues.ordering) filters.ordering = formValues.ordering;
+    if (this.searchQuery) filters.search = this.searchQuery;
+
+    return filters;
   }
 
-  onSearchChange(): void {
-    this.currentPage = 1;
-    this.loadProducts();
+  onFilterChange(): void {
+    this.loadProducts(1); // Reset to first page when filters change
   }
 
-  onSortChange(sortBy: string): void {
-    this.sortBy = sortBy;
-    this.currentPage = 1;
-    this.loadProducts();
+  onSearch(): void {
+    this.loadProducts(1);
   }
 
-  onPriceRangeChange(): void {
-    this.currentPage = 1;
-    this.loadProducts();
-  }
-
-  onPageChange(page: number): void {
-    this.currentPage = page;
-    this.loadProducts();
-  }
-
-  get paginationArray(): number[] {
-    const pages: number[] = [];
-    const startPage = Math.max(1, this.currentPage - 2);
-    const endPage = Math.min(this.totalPages, this.currentPage + 2);
-    
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(i);
+  onPreviousPage(): void {
+    if (this.hasPrevious) {
+      this.loadProducts(this.currentPage - 1);
     }
-    
-    return pages;
   }
 
-  getCategoryName(categoryId: string): string {
-    const category = this.categories.find(c => c.id === categoryId);
-    return category ? category.name : '';
+  onNextPage(): void {
+    if (this.hasNext) {
+      this.loadProducts(this.currentPage + 1);
+    }
+  }
+
+  onProductClick(product: Product): void {
+    this.router.navigate(['/products', product.id]);
+  }
+
+  onCreateProduct(): void {
+    this.router.navigate(['/products/create']);
+  }
+
+  onBoostedProducts(): void {
+    this.router.navigate(['/products/boosted']);
   }
 }

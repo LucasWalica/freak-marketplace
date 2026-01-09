@@ -1,6 +1,7 @@
 /* Global Styles for FreakMarket */
-@import "tailwindcss";
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 /* Custom CSS Variables */
 :root {
   --primary-50: #eff6ff;
