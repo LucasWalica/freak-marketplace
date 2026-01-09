@@ -1,51 +1,39 @@
-import { Component, OnInit } from '@angular/core';
-import { CategoriesService } from '../../../../core/services/categories.service';
-import { ProductsService } from '../../../../core/services/products.service';
-import { ProductCardComponent } from '../../../../shared/components/product-card/product-card.component';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../../core/services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   standalone: true,
-  imports: [ProductCardComponent, CommonModule]
+  imports: [CommonModule]
 })
-export class HomeComponent implements OnInit {
-  featuredProducts: any[] = [];
-  categories: any[] = [];
-  isLoading = true;
+export class HomeComponent {
+  isAuthenticated$: Observable<boolean>;
 
   constructor(
-    private categoriesService: CategoriesService,
-    private productsService: ProductsService
-  ) {}
-
-  ngOnInit(): void {
-    this.loadData();
+    private router: Router,
+    private authService: AuthService
+  ) {
+    this.isAuthenticated$ = this.authService.isAuthenticated$;
   }
 
-  private loadData(): void {
-    // Cargar categorías destacadas
-    this.categoriesService.getFeaturedCategories().subscribe({
-      next: (categories) => {
-        this.categories = categories;
-      },
-      error: (error) => {
-        console.error('Error loading categories:', error);
-      }
-    });
+  navigateToLogin(): void {
+    this.router.navigate(['/auth/login']);
+  }
 
-    // Cargar productos destacados (boosted)
-    this.productsService.getBoostedProducts().subscribe({
-      next: (response) => {
-        this.featuredProducts = response.results;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error loading products:', error);
-        this.isLoading = false;
-      }
-    });
+  navigateToRegister(): void {
+    this.router.navigate(['/auth/register']);
+  }
+
+  navigateToProducts(): void {
+    this.router.navigate(['/products']);
+  }
+
+  navigateToDashboard(): void {
+    this.router.navigate(['/dashboard']);
   }
 }

@@ -1,137 +1,128 @@
 <div class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <header class="bg-white shadow">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <div class="flex-shrink-0 flex items-center">
+            <h1 class="text-2xl font-bold text-indigo-600">Freak Marketplace</h1>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button
+            (click)="navigateToProducts()"
+            class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium"
+          >
+            Productos
+          </button>
+          <button
+            (click)="navigateToLogin()"
+            class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700"
+          >
+            Iniciar Sesión
+          </button>
+          <button
+            (click)="navigateToRegister()"
+            class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-300"
+          >
+            Registrarse
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
   <!-- Hero Section -->
-  <section class="relative bg-gradient-to-r from-primary-600 to-indigo-700 text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-      <div class="text-center">
-        <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-          🛍️ FreakMarket
-        </h1>
-        <p class="mt-6 text-xl max-w-3xl mx-auto">
-          El marketplace para freaks como tú. Compra, vende y descubre productos únicos.
-        </p>
-        <div class="mt-10 flex justify-center space-x-4">
-          <a routerLink="/products" class="bg-white text-primary-600 px-6 py-3 rounded-md text-lg font-medium hover:bg-gray-100 transition-colors">
-            🛍️ Explorar Productos
-          </a>
-          <a routerLink="/auth/register" class="border-2 border-white text-white px-6 py-3 rounded-md text-lg font-medium hover:bg-white hover:text-primary-600 transition-colors">
-            🚀 Registrarse
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Categories Section -->
-  <section class="py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-gray-900">Categorías Populares</h2>
-        <p class="mt-4 text-lg text-gray-600">Explora nuestras categorías más buscadas</p>
-      </div>
-      
-      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        <div *ngFor="let category of categories" class="text-center">
-          <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer">
-            <div class="text-4xl mb-2">{{ category.icon || '📦' }}</div>
-            <h3 class="font-medium text-gray-900">{{ category.name }}</h3>
-            <p class="text-sm text-gray-500 mt-1">{{ category.product_count || 0 }} productos</p>
+  <main>
+    <div class="relative bg-gray-800 overflow-hidden">
+      <div class="max-w-7xl mx-auto">
+        <div class="relative z-10 pb-8 bg-gray-800 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+          <div class="pt-10 mx-auto max-w-7xl px-4 sm:pt-12 sm:px-6 md:pt-16 lg:pt-20 lg:px-8 xl:pt-28">
+            <div class="sm:text-center lg:text-left">
+              <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+                <span class="block text-white">Compra y vende</span>
+                <span class="block text-indigo-400 text-5xl">artículos geek</span>
+              </h1>
+              <p class="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                La marketplace definitiva para collectors, gamers y entusiastas del manga. Encuentra artículos raros, vende tus tesoros y conecta con apasionados como tú.
+              </p>
+              <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                <div class="rounded-md shadow">
+                  <button
+                    (click)="navigateToProducts()"
+                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
+                  >
+                    Explorar Productos
+                  </button>
+                </div>
+                <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
+                  <button
+                    (click)="navigateToRegister()"
+                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10"
+                  >
+                    Únete Gratis
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- Featured Products Section -->
-  <section class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-gray-900">Productos Destacados</h2>
-        <p class="mt-4 text-lg text-gray-600">Los mejores productos seleccionados para ti</p>
-      </div>
-
-      <!-- Loading State -->
-      <div *ngIf="isLoading" class="flex justify-center items-center py-12">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-      </div>
-
-      <!-- Products Grid -->
-      <div *ngIf="!isLoading && featuredProducts.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <app-product-card 
-          *ngFor="let product of featuredProducts" 
-          [product]="product">
-        </app-product-card>
-      </div>
-
-      <!-- Empty State -->
-      <div *ngIf="!isLoading && featuredProducts.length === 0" class="text-center py-12">
-        <div class="text-6xl mb-4">📦</div>
-        <h3 class="text-xl font-medium text-gray-900 mb-2">No hay productos destacados</h3>
-        <p class="text-gray-600 mb-6">Vuelve más tarde para ver nuevos productos</p>
-        <a routerLink="/products" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700">
-          Ver todos los productos
-        </a>
-      </div>
-
-      <!-- View All Button -->
-      <div *ngIf="!isLoading && featuredProducts.length > 0" class="text-center mt-12">
-        <a routerLink="/products" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 transition-colors">
-          Ver todos los productos →
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section class="py-16 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-gray-900">¿Por qué FreakMarket?</h2>
-        <p class="mt-4 text-lg text-gray-600">La mejor plataforma para comprar y vender productos geek</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="text-center">
-          <div class="bg-primary-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-            <span class="text-2xl">🔒</span>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">Seguro</h3>
-          <p class="text-gray-600">Transacciones seguras y protección para compradores y vendedores</p>
+    <!-- Features Section -->
+    <div class="py-12 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:text-center">
+          <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Características</h2>
+          <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+            Todo lo que necesitas en una marketplace geek
+          </p>
         </div>
 
-        <div class="text-center">
-          <div class="bg-primary-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-            <span class="text-2xl">💬</span>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">Chat en vivo</h3>
-          <p class="text-gray-600">Comunica directamente con vendedores y compradores</p>
-        </div>
+        <div class="mt-10">
+          <div class="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
+            <!-- Feature 1 -->
+            <div class="relative">
+              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mb-4">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <h3 class="text-lg leading-6 font-medium text-gray-900">Búsqueda Avanzada</h3>
+              <p class="mt-2 text-base text-gray-500">
+                Encuentra exactamente lo que buscas con nuestro sistema de filtrado por categorías, estado y precio.
+              </p>
+            </div>
 
-        <div class="text-center">
-          <div class="bg-primary-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-            <span class="text-2xl">🌟</span>
+            <!-- Feature 2 -->
+            <div class="relative">
+              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mb-4">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                </svg>
+              </div>
+              <h3 class="text-lg leading-6 font-medium text-gray-900">Pagos Seguros</h3>
+              <p class="mt-2 text-base text-gray-500">
+                Transacciones protegidas con múltiples métodos de pago y sistema de escrow para tu tranquilidad.
+              </p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="relative">
+              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mb-4">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+              </div>
+              <h3 class="text-lg leading-6 font-medium text-gray-900">Chat Integrado</h3>
+              <p class="mt-2 text-base text-gray-500">
+                Comunícate directamente con vendedores y compradores a través de nuestro sistema de chat en tiempo real.
+              </p>
+            </div>
           </div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">Calificaciones</h3>
-          <p class="text-gray-600">Sistema de calificaciones para construir confianza</p>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="bg-primary-600">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div class="text-center">
-        <h2 class="text-3xl font-bold text-white">¿Listo para empezar?</h2>
-        <p class="mt-4 text-xl text-primary-100">Únete a nuestra comunidad de freaks y empieza a comprar y vender hoy mismo</p>
-        <div class="mt-8 flex justify-center space-x-4">
-          <a routerLink="/auth/register" class="bg-white text-primary-600 px-8 py-3 rounded-md text-lg font-medium hover:bg-gray-100 transition-colors">
-            🚀 Crear cuenta
-          </a>
-          <a routerLink="/auth/login" class="border-2 border-white text-white px-8 py-3 rounded-md text-lg font-medium hover:bg-white hover:text-primary-600 transition-colors">
-            🔐 Iniciar sesión
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+  </main>
 </div>

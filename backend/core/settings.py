@@ -14,13 +14,43 @@ import environ
 from celery.schedules import crontab
 from pathlib import Path
 from datetime import timedelta
+import firebase_admin
+from firebase_admin import credentials, storage
+from pathlib import Path
 
 
-env = environ.Env(debul=(bool, False))
+env = environ.Env(debug=(bool, False))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, '.ENV'))
 
+
+# --- FIREBASE CONFIGURATION (JSON Method) ---
+FIREBASE_KEY_PATH = os.path.join(BASE_DIR, 'core', 'firebase-key.json')
+FIREBASE_STORAGE_BUCKET = os.environ.get('FIREBASE_STORAGE_BUCKET', 'freak-marketplace.appspot.com')
+
+if not firebase_admin._apps:
+    if os.path.exists(FIREBASE_KEY_PATH):
+        try:
+            cred = credentials.Certificate(FIREBASE_KEY_PATH)
+            firebase_admin.initialize_app(cred, {
+                'storageBucket': FIREBASE_STORAGE_BUCKET
+            })
+            print("✅ Firebase Admin SDK inicializado con éxito.")
+        except Exception as e:
+            print(f"❌ Error al inicializar Firebase: {e}")
+    else:
+        print(f"⚠️ Advertencia: No se encontró el archivo de credenciales en {FIREBASE_KEY_PATH}")
+
+try:
+    FIREBASE_BUCKET = storage.bucket()
+except Exception:
+    FIREBASE_BUCKET = None
+
+# Validaciones de archivos (Usadas por tu servicio y vista)
+MAX_IMAGE_SIZE = 10 * 1024 * 1024  # 10MB
+MAX_IMAGES_PER_PRODUCT = 10
+ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -217,6 +247,9 @@ USE_TZ = True
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField' # <--- CORRECCIÓN
+
+
+
 
 # add email smtp service

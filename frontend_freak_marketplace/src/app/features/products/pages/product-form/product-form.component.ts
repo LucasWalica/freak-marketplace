@@ -11,12 +11,15 @@ import { CategoriesService } from '../../../../core/services/categories.service'
 // Modelos
 import { ProductCreateRequest, ProductUpdateRequest, Category, Product } from '../../../../core/models/product.model';
 
+// Componentes
+import { ImageUploadComponent } from '../../../../shared/components/image-upload/image-upload.component';
+
 @Component({
   selector: 'app-product-form',
   templateUrl: './product-form.component.html',
   styleUrls: ['product-form.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule, ImageUploadComponent]
 })
 export class ProductFormComponent implements OnInit, OnDestroy {
   productForm: FormGroup;
@@ -26,6 +29,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   errorMessage = '';
   successMessage = '';
   categories: Category[] = [];
+  existingImages: string[] = [];
   
   // Para limpiar suscripciones al destruir el componente
   private destroy$ = new Subject<void>();
@@ -94,6 +98,10 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           boost_type: product.boost_type,
           status: product.status
         });
+        // Cargar imágenes existentes
+        if (product.images && product.images.length > 0) {
+          this.existingImages = product.images;
+        }
         this.isLoading = false;
       },
       error: (err) => {
@@ -116,6 +124,10 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         specGroup.addControl(field, this.fb.control(''));
       });
     }
+  }
+
+  onImagesChange(images: string[]): void {
+    this.productForm.patchValue({ images });
   }
 
   onSubmit(): void {
@@ -143,7 +155,13 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   private handleSuccess(msg: string): void {
     this.successMessage = msg;
     this.isLoading = false;
-    setTimeout(() => this.router.navigate(['/products']), 2000);
+    setTimeout(() => {
+      if (this.isEditMode && this.productId) {
+        this.router.navigate(['/products', this.productId]);
+      } else {
+        this.router.navigate(['/products']);
+      }
+    }, 2000);
   }
 
   private handleError(err: any): void {

@@ -59,12 +59,22 @@ class ProfileSerializer(serializers.ModelSerializer):
     email = serializers.CharField(source='user.email', read_only=True)
     first_name = serializers.CharField(source='user.first_name', read_only=True)
     last_name = serializers.CharField(source='user.last_name', read_only=True)
+    user = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'bio', 'rating', 'is_verified', 'avatar_url', 'plan_type']
+        fields = ['id', 'user', 'username', 'email', 'first_name', 'last_name', 'bio', 'rating', 'is_verified', 'avatar_url', 'plan_type']
         # Importante: El rating y is_verified deberían ser read_only para que el usuario no se los cambie a sí mismo
-        read_only_fields = ['id', 'username', 'email', 'first_name', 'last_name', 'rating', 'is_verified']
+        read_only_fields = ['id', 'user', 'username', 'email', 'first_name', 'last_name', 'rating', 'is_verified']
+    
+    def get_user(self, obj):
+        return {
+            'id': obj.user.id,
+            'username': obj.user.username,
+            'email': obj.user.email,
+            'first_name': obj.user.first_name,
+            'last_name': obj.user.last_name
+        }
     
     def validate_avatar_url(self, value):
         if value and not value.startswith(('http://', 'https://')):

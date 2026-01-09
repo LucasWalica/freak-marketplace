@@ -1,30 +1,140 @@
-<div class="min-h-screen bg-gray-50 py-8">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="bg-white rounded-lg shadow-lg p-6">
-      <div class="text-center">
-        <div class="text-6xl mb-4">📊</div>
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
-        <p class="text-gray-600 mb-6">Esta página está en desarrollo. Próximamente podrás gestionar tus productos, ver estadísticas y más.</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="bg-gray-50 rounded-lg p-6 text-center">
-            <div class="text-4xl mb-3">📦</div>
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">Mis Productos</h3>
-            <p class="text-gray-600">Gestiona tus productos publicados</p>
+<div class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <header class="bg-white shadow">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <div class="flex-shrink-0 flex items-center">
+            <h1 class="text-2xl font-bold text-indigo-600">Freak Marketplace</h1>
           </div>
-          
-          <div class="bg-gray-50 rounded-lg p-6 text-center">
-            <div class="text-4xl mb-3">📈</div>
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">Estadísticas</h3>
-            <p class="text-gray-600">Visualiza el rendimiento de tus ventas</p>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button
+            (click)="navigateToProducts()"
+            class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium"
+          >
+            Productos
+          </button>
+          <button
+            (click)="navigateToProfile()"
+            class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium"
+          >
+            Mi Perfil
+          </button>
+          <button
+            (click)="navigateToChat()"
+            class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium"
+          >
+            Chat
+          </button>
+          <button
+            (click)="logout()"
+            class="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-700"
+          >
+            Cerrar Sesión
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="px-4 py-6 sm:px-0">
+      <div class="border-4 border-dashed border-gray-200 rounded-lg h-96">
+        <div class="p-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-4">Bienvenido a tu Dashboard</h2>
+          <p class="text-gray-600 mb-8">
+            Desde aquí puedes gestionar tus productos, ver tus mensajes y administrar tu perfil.
+          </p>
+
+          <!-- Quick Actions -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- My Products Card -->
+            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div class="flex items-center mb-4">
+                <div class="flex-shrink-0 bg-indigo-100 rounded-md p-3">
+                  <svg class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                  </svg>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-medium text-gray-900">Mis Productos</h3>
+                  <p class="text-sm text-gray-500">Gestiona tus artículos en venta</p>
+                </div>
+              </div>
+              <button
+                (click)="navigateToProducts()"
+                class="w-full bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700"
+              >
+                Ver Productos
+              </button>
+            </div>
+
+            <!-- Messages Card -->
+            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div class="flex items-center mb-4">
+                <div class="flex-shrink-0 bg-green-100 rounded-md p-3">
+                  <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-medium text-gray-900">Mensajes</h3>
+                  <p class="text-sm text-gray-500">Chatea con otros usuarios</p>
+                </div>
+              </div>
+              <button
+                (click)="navigateToChat()"
+                class="w-full bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700"
+              >
+                Ir al Chat
+              </button>
+            </div>
+
+            <!-- Profile Card -->
+            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div class="flex items-center mb-4">
+                <div class="flex-shrink-0 bg-purple-100 rounded-md p-3">
+                  <svg class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-medium text-gray-900">Mi Perfil</h3>
+                  <p class="text-sm text-gray-500">Edita tu información</p>
+                </div>
+              </div>
+              <button
+                (click)="navigateToProfile()"
+                class="w-full bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700"
+              >
+                Editar Perfil
+              </button>
+            </div>
           </div>
-          
-          <div class="bg-gray-50 rounded-lg p-6 text-center">
-            <div class="text-4xl mb-3">💬</div>
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">Mensajes</h3>
-            <p class="text-gray-600">Chatea con compradores y vendedores</p>
+
+          <!-- Stats Section -->
+          <div class="mt-8 grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-white p-4 rounded-lg shadow">
+              <div class="text-2xl font-bold text-indigo-600">0</div>
+              <div class="text-sm text-gray-500">Productos Publicados</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+              <div class="text-2xl font-bold text-green-600">0</div>
+              <div class="text-sm text-gray-500">Ventas Realizadas</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+              <div class="text-2xl font-bold text-purple-600">0</div>
+              <div class="text-sm text-gray-500">Compras Realizadas</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+              <div class="text-2xl font-bold text-orange-600">0</div>
+              <div class="text-sm text-gray-500">Mensajes Nuevos</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  </main>
 </div>

@@ -33,6 +33,18 @@ export const routes: Routes = [
     title: 'Detalle del Producto'
   },
   {
+    path: 'products/create',
+    loadComponent: () => import('./features/products/pages/product-form/product-form.component').then(m => m.ProductFormComponent),
+    canActivate: [AuthGuard],
+    title: 'Crear Producto'
+  },
+  {
+    path: 'products/:id/edit',
+    loadComponent: () => import('./features/products/pages/product-form/product-form.component').then(m => m.ProductFormComponent),
+    canActivate: [AuthGuard],
+    title: 'Editar Producto'
+  },
+  {
     path: 'categories',
     loadComponent: () => import('./features/categories/pages/category-list/category-list.component').then(m => m.CategoryListComponent),
     title: 'Categorías'

@@ -1,4 +1,4 @@
-
+SECRET_FIREBASE.JSON
 
 # Django #
 *.log
@@ -10,6 +10,7 @@ media
 
 # Backup files # 
 *.bak 
+
 
 # If you are using PyCharm # 
 # User-specific stuff

@@ -48,62 +48,78 @@ class UserCreateView(generics.CreateAPIView):
                 "last_name": user.last_name,
             },
         }, status=201)
-    
-#login 
+
 class LoginView(APIView):
     permission_classes = [AllowAny]
+
     def post(self, request, *args, **kwargs):
-        username = request.data.get("username")  # Cambiado de "email" a "username"
+        username = request.data.get("username")
         password = request.data.get("password")
 
         if not username or not password:
-            return Response({
-                "error": "Se requieren usuario y contraseña"
-            }, status=400)
+            return Response({"error": "Se requieren usuario y contraseña"}, status=400)
 
-        # Try to authenticate with username first, then with email
-        user = None
-        try:
-            # First try with username
-            user = authenticate(username=username, password=password)
-        except:
-            pass
+        # Autenticación (mejorada)
+        user = authenticate(request, username=username, password=password)
         
+        # Si no autentica por username, intentamos por email manualmente
         if user is None:
-            # If username fails, try with email
+            from django.contrib.auth import get_user_model
+            User = get_user_model()
             try:
                 user_obj = User.objects.get(email=username)
-                user = authenticate(username=user_obj.username, password=password)
+                user = authenticate(request, username=user_obj.username, password=password)
             except User.DoesNotExist:
                 pass
 
         if user is not None:
+            # Generar Token
             access = AccessToken.for_user(user)
-            response = JsonResponse({
+            
+            # Crear la respuesta usando Response de DRF
+            response = Response({
                 "user": {
                     "id": user.id,
                     "username": user.username,
                     "email": user.email,
-                    "first_name": user.first_name,
-                    "last_name": user.last_name,
                 },
                 "message": "Login successful"
-            })      
-            # Cookie JWT Django
+            }, status=200)
+
+            # Seteamos la cookie en el objeto response de DRF
             response.set_cookie(
                 key="access_token",
                 value=str(access),
-                httponly=True,
-                secure=False,      # local
-                samesite="Lax",    # <----- cambiar aquí
-                max_age=3600,
-                path="/"
+                httponly=True,   # Mantener por seguridad
+                secure=False,    # Obligatorio False para HTTP
+                samesite="Lax",  # String "Lax" con mayúscula
+                path="/",        # Raíz
+                max_age=3600,    # 1 hora en segundos (60 minutos)
             )
             return response
-        else:
-            return Response({
-                "error": "Credenciales inválidas"
-            }, status=401)
+        
+        return Response({"error": "Credenciales inválidas"}, status=401)
+
+class RefreshTokenView(APIView):
+    permission_classes = [AllowAny]
+    
+    def post(self, request):
+        raw_token = request.COOKIES.get("access_token")
+        if not raw_token:
+            return Response({"error": "No token provided"}, status=401)
+            
+        try:
+            from rest_framework_simplejwt.tokens import AccessToken
+            # Validar el token existente
+            token = AccessToken(raw_token)
+            
+            # Si el token es válido, simplemente devolvemos una respuesta exitosa
+            # El frontend usará esto para saber que la sesión sigue activa
+            return Response({"message": "Token is valid"}, status=200)
+            
+        except Exception as e:
+            return Response({"error": "Token inválido o expirado"}, status=401)
+
 #logout 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
@@ -138,7 +154,8 @@ class ProfileDetailUpdateView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         # Esto garantiza que el usuario logueado obtenga SU perfil 
         # sin necesidad de pasar el ID en la URL.
-        return self.request.user.profile
+        profile, created = Profile.objects.get_or_create(user=self.request.user)
+        return profile
 
 
 class PublicProfileDetailView(generics.RetrieveAPIView):

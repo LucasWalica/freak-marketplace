@@ -32,6 +32,19 @@
         </div>
 
         <div class="space-y-6">
+          <!-- Upload de Imágenes -->
+          <div class="space-y-6">
+            <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 flex items-center">
+              <span class="mr-2">🖼️</span> Imágenes del Producto
+            </h2>
+            
+            <app-image-upload
+              [maxImages]="10"
+              [existingImages]="existingImages"
+              (imagesChange)="onImagesChange($event)"
+            ></app-image-upload>
+          </div>
+
           <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 flex items-center">
             <span class="mr-2">📦</span> Datos Principales
           </h2>

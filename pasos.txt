@@ -1,0 +1,259 @@
+Fase 1: Análisis del Estado Actual
+1.1 Mapeo de Componentes Existentes
+
+Backend Django:
+
+    Sistema de autenticación con JWT cookies en backend/users/views.py
+    Gestión de productos en backend/products/views.py
+    Sistema de categorías con schema dinámico
+
+Frontend Angular:
+
+    Servicio de autenticación reactiva en auth.service.ts
+    Formulario de productos dinámico en product-form.component.ts
+    Lista de productos con filtros en product-list.component.ts
+
+1.2 Identificación de Gaps
+
+    Storage de imágenes: Actualmente solo URLs, no hay gestión de archivos
+    Procesamiento de imágenes: No hay optimización o thumbnails
+    Validación de imágenes: No hay restricciones de formato/tamaño
+    Carga masiva: No soporta múltiples imágenes simultáneas
+
+Fase 2: Integración de Firebase Storage
+2.1 Configuración del Backend
+
+Paso 1: Instalar dependencias
+pip install firebase-admin
+
+Paso 2: Configurar credenciales en backend/settings.py
+FIREBASE_CONFIG = {
+"type": os.environ.get('FIREBASE_TYPE'),
+"project_id": os.environ.get('FIREBASE_PROJECT_ID'),
+"private_key_id": os.environ.get('FIREBASE_PRIVATE_KEY_ID'),
+"private_key": os.environ.get('FIREBASE_PRIVATE_KEY').replace('\n', '\n'),
+"client_email": os.environ.get('FIREBASE_CLIENT_EMAIL'),
+"client_id": os.environ.get('FIREBASE_CLIENT_ID'),
+"auth_uri": "https://accounts.google.com/o/oauth2/auth",
+"token_uri": "https://oauth2.googleapis.com/token"
+}
+
+Paso 3: Crear servicio Firebase en backend/services/firebase_service.py
+import firebase_admin
+from firebase_admin import storage, credentials
+from django.conf import settings
+
+class FirebaseStorageService:
+def init(self):
+if not firebase_admin._apps:
+cred = credentials.Certificate(settings.FIREBASE_CONFIG)
+firebase_admin.initialize_app(cred, {
+'storageBucket': settings.FIREBASE_STORAGE_BUCKET
+})
+self.bucket = storage.bucket()
+
+def upload_image(self, file_data, file_name, folder='products'):  
+    blob = self.bucket.blob(f"{folder}/{file_name}")  
+    blob.upload_from_string(file_data, content_type='image/jpeg')  
+    blob.make_public()  
+    return blob.public_url  
+
+2.2 Modificación del Modelo de Productos
+
+Actualizar backend/products/serializers.py
+class ProductSerializer(serializers.ModelSerializer):
+def create(self, validated_data):
+images_data = validated_data.pop('images', [])
+product = Product.objects.create(**validated_data)
+
+    firebase_service = FirebaseStorageService()  
+    uploaded_urls = []  
+      
+    for i, image_data in enumerate(images_data):  
+        file_name = f"product_{product.id}_{i}.jpg"  
+        url = firebase_service.upload_image(image_data, file_name)  
+        uploaded_urls.append(url)  
+      
+    product.images = uploaded_urls  
+    product.save()  
+    return product  
+
+2.3 Actualización del Frontend
+
+Modificar ProductsService en frontend_freak_marketplace/src/app/core/services/products.service.ts
+uploadImagesToFirebase(files: File[]): Observable<string[]> {
+const formData = new FormData();
+files.forEach((file, index) => {
+formData.append(image_${index}, file);
+});
+
+return this.apiService.post<string[]>('/products/upload-images/', formData);
+}
+
+Actualizar ProductFormComponent
+onImageUpload(event: any): void {
+const files = event.target.files;
+if (files.length > 0) {
+this.productsService.uploadImagesToFirebase(Array.from(files))
+.subscribe(urls => {
+this.productForm.patchValue({ images: urls });
+});
+}
+}
+Fase 3: Funcionalidades Pendientes
+3.1 Sistema de Notificaciones
+
+Backend: Crear backend/notifications/models.py
+class Notification(models.Model):
+recipient = models.ForeignKey(User, on_delete=models.CASCADE)
+message = models.TextField()
+is_read = models.BooleanField(default=False)
+created_at = models.DateTimeField(auto_now_add=True)
+notification_type = models.CharField(max_length=20, choices=[
+('NEW_MESSAGE', 'New Message'),
+('PRODUCT_SOLD', 'Product Sold'),
+('OFFER_RECEIVED', 'Offer Received')
+])
+
+Frontend: Crear servicio de notificaciones
+@Injectable({
+providedIn: 'root'
+})
+export class NotificationsService {
+private notificationsSubject = new BehaviorSubject<Notification[]>([]);
+public notifications$ = this.notificationsSubject.asObservable();
+
+constructor(private apiService: ApiService) {
+this.loadNotifications();
+}
+
+loadNotifications(): void {
+this.apiService.get<Notification[]>('/notifications/')
+.subscribe(notifications => {
+this.notificationsSubject.next(notifications);
+});
+}
+}
+3.2 Sistema de Valoraciones
+
+Backend: Extender backend/users/models.py
+class Review(models.Model):
+reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_given')
+reviewed_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_received')
+product = models.ForeignKey(Product, on_delete=models.CASCADE)
+rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
+comment = models.TextField()
+created_at = models.DateTimeField(auto_now_add=True)
+
+class Meta:  
+    unique_together = ['reviewer', 'product']  
+
+3.3 Búsqueda Avanzada
+
+Mejorar backend/products/views.py
+class AdvancedSearchView(generics.ListAPIView):
+serializer_class = ProductSerializer
+
+def get_queryset(self):  
+    queryset = Product.objects.all()  
+      
+    # Búsqueda por especificaciones dinámicas  
+    for key, value in self.request.query_params.items():  
+        if key.startswith('spec_'):  
+            spec_field = key[5:]  # Remover 'spec_'  
+            queryset = queryset.filter(  
+                specifications__contains={spec_field: value}  
+            )  
+      
+    return queryset  
+
+Fase 4: Proceso Iterativo de Desarrollo
+4.1 Ciclo de Iteración
+
+    Análisis de Requisitos
+    Implementación Backend
+    Implementación Frontend
+    Pruebas Unitarias
+    Pruebas de Integración
+    Despliegue a Staging
+    Pruebas E2E
+    ¿Aprobado?
+        Sí: Despliegue a Producción
+        No: Retrospectiva -> volver al paso 1
+    Monitoreo -> volver al paso 1
+
+4.2 Checklist por Iteración
+
+Backend:
+
+    Crear/actualizar modelos
+    Implementar serializadores
+    Crear vistas y endpoints
+    Agregar permisos y validaciones
+    Escribir pruebas unitarias
+    Actualizar documentación de API
+
+Frontend:
+
+    Crear/actualizar modelos TypeScript
+    Implementar servicios
+    Crear/actualizar componentes
+    Agregar validaciones de formulario
+    Implementar manejo de errores
+    Escribir pruebas unitarias
+
+Integración:
+
+    Probar flujo completo
+    Verificar manejo de errores
+    Validar permisos
+    Probar casos límite
+    Verificar rendimiento
+
+4.3 Métricas de Progreso
+
+    Coverage de código: >80%
+    Pruebas pasando: 100%
+    Endpoints documentados: 100%
+    Componentes accesibles: WCAG 2.1 AA
+    Performance: <3s tiempo de carga
+
+Fase 5: Optimización y Monitoreo
+5.1 Optimización de Imágenes
+
+Implementar thumbnails automáticos
+def generate_thumbnails(image_url):
+# Generar versiones optimizadas
+sizes = ['small', 'medium', 'large']
+base_url = image_url.rsplit('.', 1)[0]
+return {
+'original': image_url,
+'small': f"{base_url}_small.jpg",
+'medium': f"{base_url}_medium.jpg",
+'large': f"{base_url}_large.jpg"
+}
+5.2 Monitoreo y Analytics
+
+Integrar Firebase Analytics
+// En el servicio de productos
+trackProductView(productId: string): void {
+firebase.analytics().logEvent('product_view', {
+product_id: productId,
+timestamp: new Date().toISOString()
+});
+}
+Notas
+
+    Este plan asume que el agente IA tiene acceso al código base completo
+    Cada iteración debe durar entre 1-2 semanas máximo
+    Es importante mantener compatibilidad backward durante las transiciones
+    Firebase Storage requiere configuración de credenciales y permisos adecuados
+    Considerar implementar CDN para mejor rendimiento de imágenes
+
+Notas
+
+    Este plan está basado en la arquitectura actual del proyecto Freak Marketplace con backend Django y frontend Angular models.py:8-23
+    El modelo Product actual ya tiene un campo images como JSONField para almacenar URLs de Firebase models.py:21-22
+    El frontend ya tiene un servicio ProductsService con método uploadImages implementado products.service.ts:44-51
+    El formulario de productos ya maneja imágenes como array de strings product.model.ts:16
+

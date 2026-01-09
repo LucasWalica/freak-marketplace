@@ -18,11 +18,11 @@ export class ProductsService {
   constructor(private apiService: ApiService) {}
 
   getProducts(filters?: ProductFilter): Observable<PaginatedProductsResponse> {
-    return this.apiService.get<PaginatedProductsResponse>('/products/products/', filters);
+    return this.apiService.get<PaginatedProductsResponse>('/products/', filters);
   }
 
   getProduct(id: string): Observable<Product> {
-    return this.apiService.get<Product>(`/products/products/${id}/`);
+    return this.apiService.get<Product>(`/products/${id}/`);
   }
 
   getMyProducts(filters?: ProductFilter): Observable<PaginatedProductsResponse> {
@@ -43,11 +43,11 @@ export class ProductsService {
 
   uploadImages(files: File[]): Observable<{ urls: string[] }> {
     const formData = new FormData();
-    files.forEach(file => {
+    files.forEach((file, index) => {
       formData.append('images', file);
     });
 
-    return this.apiService.upload<{ urls: string[] }>('/products/upload-images/', formData);
+    return this.apiService.post<{ urls: string[] }>('/products/upload-images/', formData);
   }
 
   searchProducts(query: string, filters?: ProductFilter): Observable<PaginatedProductsResponse> {
