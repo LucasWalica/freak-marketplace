@@ -1,4 +1,8 @@
+
+# En tu .gitignore
 SECRET_FIREBASE.json
+secret_firebase.json
+SECRET_FIREBASE.JSON
 
 # Django #
 *.log
