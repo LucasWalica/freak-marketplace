@@ -1,4 +1,4 @@
-SECRET_FIREBASE.JSON
+SECRET_FIREBASE.json
 
 # Django #
 *.log
@@ -143,3 +143,4 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+SECRET_FIREBASE.json
