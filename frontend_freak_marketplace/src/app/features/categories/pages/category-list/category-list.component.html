@@ -1,18 +1,77 @@
-<div class="min-h-screen bg-gray-50 py-8">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
-      <h1 class="text-3xl font-bold text-gray-900">Categorías</h1>
-      <p class="mt-2 text-lg text-gray-600">Explora nuestras categorías de productos</p>
+<div class="min-h-screen bg-freak-dark relative overflow-hidden py-16">
+  <div class="absolute inset-0 z-0 bg-cyber-mesh bg-mesh-size opacity-10 pointer-events-none"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle,rgba(var(--freak-primary-rgb),0.05)_0%,transparent_70%)] pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    
+    <div class="text-center mb-16 space-y-4">
+      <div class="inline-flex items-center gap-4">
+        <div class="h-[1px] w-12 bg-freak-primary/50"></div>
+        <span class="font-geek text-[10px] text-freak-secondary tracking-[5px] uppercase">Database_Explorer</span>
+        <div class="h-[1px] w-12 bg-freak-primary/50"></div>
+      </div>
+      <h1 class="text-5xl font-display font-black text-white tracking-tighter uppercase">
+        SECTORES DE <span class="text-transparent bg-clip-text bg-freak-gradient">LOOT</span>
+      </h1>
+      <p class="text-slate-400 font-light max-w-xl mx-auto italic">
+        Filtra la realidad por categorías. Selecciona un sector para desplegar los artefactos disponibles.
+      </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div *ngFor="let category of categories" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer">
-        <div class="text-center">
-          <div class="text-4xl mb-4">{{ category.icon }}</div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ category.name }}</h3>
-          <p class="text-gray-600">{{ category.product_count }} productos</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div *ngFor="let category of categories" 
+           class="group relative p-8 bg-freak-card/40 backdrop-blur-md border border-white/5 rounded-card overflow-hidden transition-all hover:scale-[1.02] hover:border-freak-primary/50 cursor-pointer">
+        
+        <div class="absolute top-0 right-0 w-12 h-12 overflow-hidden">
+          <div class="absolute top-0 right-0 w-[2px] h-full bg-freak-primary/20 transition-all group-hover:bg-freak-primary shadow-neon"></div>
+          <div class="absolute top-0 right-0 w-full h-[2px] bg-freak-primary/20 transition-all group-hover:bg-freak-primary shadow-neon"></div>
         </div>
+
+        <div class="relative z-10 flex flex-col items-center text-center">
+          <div class="relative mb-6">
+            <div class="absolute inset-0 bg-freak-primary blur-2xl opacity-0 group-hover:opacity-20 transition-opacity"></div>
+            <div class="text-6xl filter drop-shadow-lg transition-transform group-hover:scale-110 group-hover:animate-float">
+              {{ category.icon }}
+            </div>
+          </div>
+
+          <h3 class="text-2xl font-display font-black text-white mb-2 tracking-tight uppercase group-hover:text-freak-secondary transition-colors">
+            {{ category.name }}
+          </h3>
+          
+          <div class="flex items-center gap-3">
+            <div class="h-[1px] w-4 bg-white/10"></div>
+            <p class="font-geek text-[9px] text-slate-500 tracking-widest uppercase group-hover:text-white transition-colors">
+              {{ category.product_count }} Unidades_Detectadas
+            </p>
+            <div class="h-[1px] w-4 bg-white/10"></div>
+          </div>
+
+          <div class="mt-8 opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0">
+            <span class="font-geek text-[8px] text-freak-primary tracking-[3px] py-2 px-4 border border-freak-primary/30 rounded-sm">
+              ACCEDER_AL_SECTOR >>
+            </span>
+          </div>
+        </div>
+
+        <div class="absolute inset-0 bg-gradient-to-br from-freak-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
       </div>
     </div>
+
+    <div class="mt-20 pt-10 border-t border-white/5 flex flex-wrap justify-center gap-12">
+      <div class="text-center">
+        <div class="font-display text-2xl text-white font-black italic">15</div>
+        <div class="font-geek text-[8px] text-slate-500 tracking-widest">SECTORES_TOTALES</div>
+      </div>
+      <div class="text-center">
+        <div class="font-display text-2xl text-white font-black italic">+1.2k</div>
+        <div class="font-geek text-[8px] text-slate-500 tracking-widest">ARTEFACTOS_INDEXADOS</div>
+      </div>
+      <div class="text-center">
+        <div class="font-display text-2xl text-white font-black italic">24h</div>
+        <div class="font-geek text-[8px] text-slate-500 tracking-widest">UPTIME_DEL_SISTEMA</div>
+      </div>
+    </div>
+
   </div>
 </div>

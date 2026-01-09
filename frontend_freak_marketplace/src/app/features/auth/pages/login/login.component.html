@@ -1,118 +1,102 @@
-<div class="min-h-screen bg-gradient-to-br from-freak-dark to-freak-primary flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-md w-full space-y-8">
-    <div class="text-center">
-      <div class="mx-auto h-20 w-20 flex items-center justify-center bg-gradient-cyberpunk rounded-full shadow-cyber animate-cyber-glow">
-        <span class="text-4xl">🛍️</span>
+<div class="min-h-screen bg-freak-dark relative flex items-center justify-center py-12 px-4 overflow-hidden">
+  
+  <div class="absolute inset-0 z-0 bg-cyber-mesh bg-mesh-size opacity-20 pointer-events-none"></div>
+  <div class="absolute -top-24 -left-24 w-96 h-96 bg-freak-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+  <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-freak-secondary/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+  <div class="max-w-md w-full relative z-10 space-y-10">
+    
+    <div class="text-center space-y-4">
+      <div class="inline-block relative">
+        <div class="absolute inset-0 bg-freak-gradient blur-xl opacity-30 animate-pulse"></div>
+        <h1 class="relative font-display text-4xl font-black text-white tracking-tighter leading-none">
+          ACCESO_<span class="text-transparent bg-clip-text bg-freak-gradient">USUARIO</span>
+        </h1>
       </div>
-      <h2 class="mt-6 text-3xl font-extrabold text-freak-light tracking-tight animate-fade-in">
-        Bienvenido a FreakMarket
-      </h2>
-      <p class="mt-2 text-sm text-freak-light font-medium animate-fade-in">
-        Inicia sesión para acceder a tu cuenta friki
+      <p class="font-geek text-[10px] text-slate-400 tracking-[3px] uppercase">
+        Iniciando protocolo de conexión...
       </p>
     </div>
 
-    <div class="card animate-fade-in">
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-5">
-        <div
-          *ngIf="errorMessage"
-          class="bg-freak-danger bg-opacity-10 border-l-4 border-freak-danger text-freak-danger p-4 rounded-md animate-pulse"
-        >
-          <p class="text-sm font-bold">{{ errorMessage }}</p>
-        </div>
-
-        <div>
-          <label for="username" class="block text-sm font-semibold text-freak-light mb-1">
-            Nombre de usuario o Email
-          </label>
-          <div class="relative">
-            <input
-              id="username"
-              type="text"
-              formControlName="username"
-              placeholder="Ej: lucas_ninja"
-              class="block w-full px-4 py-3 border rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
-              [ngClass]="{
-                'border-freak-danger focus:ring-freak-danger focus:border-freak-danger': loginForm.get('username')?.touched && loginForm.get('username')?.invalid,
-                'border-freak-primary focus:ring-freak-secondary focus:border-freak-secondary': !(loginForm.get('username')?.touched && loginForm.get('username')?.invalid)
-              }"
-            >
+    <div class="p-1 rounded-card bg-gradient-to-b from-white/10 to-transparent">
+      <div class="bg-freak-card/80 backdrop-blur-2xl p-8 rounded-card border border-white/5 shadow-2xl">
+        
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+          
+          <div *ngIf="errorMessage" 
+               class="bg-freak-danger/10 border border-freak-danger/50 p-4 rounded-button animate-glitch">
+            <p class="font-geek text-[9px] text-freak-danger tracking-widest flex items-center gap-2">
+              <span class="text-lg">⚠️</span> ERR_AUTH: {{ errorMessage }}
+            </p>
           </div>
-          <div
-            *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid"
-            class="mt-1 text-xs text-freak-danger font-medium"
-          >
-            <span *ngIf="loginForm.get('username')?.errors?.['required']">El usuario es obligatorio.</span>
-          </div>
-        </div>
 
-        <div>
-          <label for="password" class="block text-sm font-semibold text-freak-light mb-1">
-            Contraseña
-          </label>
-          <div class="relative">
-            <input
-              id="password"
-              [type]="showPassword ? 'text' : 'password'"
-              formControlName="password"
-              placeholder="••••••••"
-              class="block w-full px-4 py-3 border rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
-              [ngClass]="{
-                'border-freak-danger focus:ring-freak-danger focus:border-freak-danger': loginForm.get('password')?.touched && loginForm.get('password')?.invalid,
-                'border-freak-primary focus:ring-freak-secondary focus:border-freak-secondary': !(loginForm.get('password')?.touched && loginForm.get('password')?.invalid)
-              }"
-            >
+          <div class="space-y-2">
+            <label class="font-geek text-[9px] text-freak-secondary tracking-widest uppercase ml-1">Identificador_ID</label>
+            <div class="relative group">
+              <input
+                type="text"
+                formControlName="username"
+                placeholder="USERNAME_O_EMAIL"
+                class="block w-full px-4 py-4 bg-freak-dark/50 border border-white/10 rounded-input text-white text-sm focus:border-freak-primary focus:ring-1 focus:ring-freak-primary/30 outline-none transition-all placeholder:text-white/10"
+                [ngClass]="{'border-freak-danger': loginForm.get('username')?.touched && loginForm.get('username')?.invalid}"
+              >
+              <div class="absolute right-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-freak-primary transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-width="1.5"></path></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="font-geek text-[9px] text-freak-secondary tracking-widest uppercase ml-1">Clave_Acceso</label>
+            <div class="relative group">
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="••••••••"
+                class="block w-full px-4 py-4 bg-freak-dark/50 border border-white/10 rounded-input text-white text-sm focus:border-freak-secondary focus:ring-1 focus:ring-freak-secondary/30 outline-none transition-all placeholder:text-white/10"
+                [ngClass]="{'border-freak-danger': loginForm.get('password')?.touched && loginForm.get('password')?.invalid}"
+              >
+              <button
+                type="button"
+                (click)="showPassword = !showPassword"
+                class="absolute right-4 top-1/2 -translate-y-1/2 text-white/20 hover:text-white transition-colors"
+              >
+                <svg *ngIf="!showPassword" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-width="1.5"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-width="1.5"/></svg>
+                <svg *ngIf="showPassword" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.542-7m5.858 5.858A3 3 0 1114.142 14.142M17 17l-5-5m-5-5l5 5" stroke-width="1.5"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="pt-4">
             <button
-              type="button"
-              (click)="showPassword = !showPassword"
-              class="absolute inset-y-0 right-0 pr-3 flex items-center text-freak-light hover:text-freak-secondary transition-colors"
+              type="submit"
+              [disabled]="loginForm.invalid || isLoading"
+              class="group relative w-full flex justify-center py-4 px-4 font-geek text-[10px] tracking-[3px] text-white rounded-button overflow-hidden transition-all shadow-glow hover:scale-[1.02] active:scale-95 disabled:opacity-30 disabled:hover:scale-100"
             >
-              <svg *ngIf="!showPassword" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              </svg>
-              <svg *ngIf="showPassword" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.542-7m5.858 5.858A3 3 0 1114.142 14.142M17 17l-5-5m-5-5l5 5" />
-              </svg>
+              <div class="absolute inset-0 bg-freak-gradient animate-border-flow bg-[length:200%_auto]"></div>
+              <span class="relative z-10 flex items-center gap-3">
+                <span *ngIf="!isLoading">INICIAR_SESIÓN</span>
+                <span *ngIf="isLoading" class="flex items-center gap-2">
+                  <svg class="animate-spin h-3 w-3" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                  AUTENTICANDO...
+                </span>
+              </span>
             </button>
           </div>
-          <div
-            *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
-            class="mt-1 text-xs text-freak-danger font-medium"
-          >
-            <span *ngIf="loginForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</span>
-          </div>
-        </div>
+        </form>
 
-        <div class="pt-2">
-          <button
-            type="submit"
-            [disabled]="loginForm.invalid || isLoading"
-            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-button text-freak-dark bg-gradient-cyberpunk hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-freak-secondary disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md cyberpunk"
-          >
-            <span *ngIf="!isLoading" class="flex items-center">
-              Entrar al Market
-            </span>
-            <span *ngIf="isLoading" class="flex items-center">
-              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-freak-dark" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Conectando...
-            </span>
+        <div class="mt-8 flex flex-col items-center gap-4 border-t border-white/5 pt-8">
+          <p class="text-xs text-slate-400 font-light">
+            ¿No tienes acceso? 
+            <button (click)="navigateToRegister()" class="text-freak-secondary font-bold hover:text-freak-accent transition-colors ml-1 uppercase tracking-tighter">Crea un perfil</button>
+          </p>
+          <button (click)="navigateToHome()" 
+            class="group flex items-center font-geek text-[8px] text-white/30 hover:text-white transition-all tracking-[2px]">
+            <svg class="w-3 h-3 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            VOLVER_AL_RECEPTOR
           </button>
         </div>
-      </form>
 
-      <div class="mt-8 text-center space-y-3">
-        <p class="text-sm text-freak-light">
-          ¿Nuevo en el gremio?
-          <button (click)="navigateToRegister()" class="text-freak-secondary font-bold hover:underline glow">Únete aquí</button>
-        </p>
-        <button (click)="navigateToHome()" class="text-xs text-freak-light hover:text-freak-secondary flex items-center justify-center mx-auto glow">
-          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Volver a la tienda
-        </button>
       </div>
     </div>
   </div>

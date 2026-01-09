@@ -1,131 +1,115 @@
-<div class="min-h-screen bg-freak-dark">
-  <!-- Header -->
-  <header class="bg-freak-dark border-b border-freak-primary shadow-cyber">
-    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16 items-center">
-        <div class="flex items-center">
-          <div class="flex-shrink-0 flex items-center">
-            <h1 class="text-2xl font-bold neon hover:animate-pulse transition-all">
-              🛍️ FreakMarket
-            </h1>
-          </div>
-        </div>
-        <div class="flex items-center space-x-4">
-          <button
-            (click)="navigateToProducts()"
-            class="text-freak-light hover:text-freak-secondary px-3 py-2 rounded-button text-sm font-medium transition-colors glow"
-          >
-            Productos
-          </button>
-          <button
-            (click)="navigateToLogin()"
-            class="bg-freak-primary text-freak-light hover:bg-freak-secondary px-4 py-2 rounded-button text-sm font-medium transition-colors"
-          >
-            Iniciar Sesión
-          </button>
-          <button
-            (click)="navigateToRegister()"
-            class="bg-gradient-cyberpunk text-freak-dark hover:opacity-90 px-4 py-2 rounded-button text-sm font-medium transition-all cyberpunk"
-          >
-            Registrarse
-          </button>
-        </div>
-      </div>
-    </nav>
-  </header>
-
-  <!-- Hero Section -->
+<div class="min-h-screen bg-freak-dark text-freak-light selection:bg-freak-accent selection:text-white">
+  
   <main>
-    <div class="relative bg-gradient-to-br from-freak-dark to-freak-primary overflow-hidden">
-      <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
-      <div class="relative max-w-7xl mx-auto">
-        <div class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
-          <div class="pt-10 mx-auto max-w-7xl px-4 sm:pt-12 sm:px-6 md:pt-16 lg:pt-20 lg:px-8 xl:pt-28">
-            <div class="sm:text-center lg:text-left">
-              <h1 class="text-4xl tracking-tight font-extrabold text-freak-light sm:text-5xl md:text-6xl animate-fade-in">
-                <span class="block neon">Compra y vende</span>
-                <span class="block text-freak-accent text-5xl">artículos geek</span>
-              </h1>
-              <p class="mt-3 text-base text-freak-light sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0 animate-fade-in">
-                La marketplace definitiva para collectors, gamers y entusiastas del manga. Encuentra artículos raros, vende tus tesoros y conecta con apasionados como tú.
-              </p>
-              <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start animate-fade-in">
-                <div class="rounded-md shadow">
-                  <button
-                    (click)="navigateToProducts()"
-                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-button text-freak-dark bg-gradient-cyberpunk hover:opacity-90 md:py-4 md:text-lg md:px-10 transition-all cyberpunk"
-                  >
-                    Explorar Productos
-                  </button>
-                </div>
-                <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-                  <button
-                    (click)="navigateToRegister()"
-                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-button text-freak-light bg-freak-secondary hover:bg-freak-accent md:py-4 md:text-lg md:px-10 transition-colors glow"
-                  >
-                    Únete Gratis
-                  </button>
-                </div>
-              </div>
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden border-b border-white/10">
+      
+      <div class="absolute inset-0 z-0 bg-cyber-mesh bg-mesh-size opacity-20"></div>
+      <div class="absolute inset-0 z-0 bg-gradient-to-t from-freak-dark via-freak-dark/60 to-transparent"></div>
+
+      <div class="absolute top-1/4 -left-20 w-[500px] h-[500px] bg-freak-primary/10 rounded-full blur-[140px]"></div>
+      <div class="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-freak-secondary/10 rounded-full blur-[140px]"></div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center lg:text-left grid lg:grid-cols-2 gap-16 items-center">
+          
+          <div class="space-y-10">
+            <div class="inline-block px-4 py-1 rounded-full border border-freak-accent/40 bg-freak-accent/10 text-freak-accent font-geek text-[10px] tracking-widest animate-pulse">
+              CONEXIÓN_ESTABLE // MERCADO_ACTIVO
             </div>
+
+            <h1 class="font-display text-6xl md:text-8xl font-black tracking-tighter leading-none animate-slide-up">
+              <span class="block text-white">TU BOTÍN</span>
+              <span class="block text-transparent bg-clip-text bg-freak-gradient animate-border-flow bg-[length:200%_auto]">
+                INFINITO.
+              </span>
+            </h1>
+            
+            <p class="max-w-xl text-xl md:text-2xl text-slate-300 font-light leading-relaxed animate-fade-in [animation-delay:200ms]">
+              Desde figuras de edición limitada hasta cartas legendarias y tecnología retro. El marketplace de los que <span class="text-freak-secondary font-bold underline decoration-freak-secondary/30">viven el coleccionismo.</span>
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start animate-fade-in [animation-delay:400ms]">
+              <button (click)="navigateToProducts()" 
+                class="group relative px-10 py-5 font-geek text-xs tracking-widest text-white bg-freak-primary rounded-button shadow-[0_0_30px_rgba(188,19,254,0.4)] hover:shadow-glow transition-all active:scale-95 overflow-hidden">
+                <span class="relative z-10">BUSCAR_TESOROS</span>
+                <div class="absolute inset-0 bg-gradient-to-r from-freak-accent to-freak-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              </button>
+
+              <button (click)="navigateToRegister()" 
+                class="px-10 py-5 font-geek text-xs tracking-widest text-freak-secondary border-2 border-freak-secondary rounded-button hover:bg-freak-secondary hover:text-freak-dark transition-all duration-300">
+                CREAR_CUENTA
+              </button>
+            </div>
+          </div>
+
+          <div class="hidden lg:block relative">
+            <div class="absolute inset-0 bg-freak-primary/20 rounded-full blur-[100px] animate-pulse-slow"></div>
+            <img src="assets/collage-geek.png" alt="Coleccionables" class="relative z-10 w-full animate-float drop-shadow-[0_0_30px_rgba(0,0,0,0.5)]">
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Features Section -->
-    <div class="py-12 bg-freak-dark">
+    <section class="py-20 bg-freak-dark">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="lg:text-center">
-          <h2 class="text-base text-freak-accent font-semibold tracking-wide uppercase">Características</h2>
-          <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-freak-light sm:text-4xl animate-fade-in">
-            Todo lo que necesitas en una marketplace geek
-          </p>
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+          <div>
+            <h2 class="font-geek text-xs text-freak-secondary mb-2 tracking-[4px]">SELECCIÓN_POR_TIPO</h2>
+            <p class="text-4xl font-display font-bold text-white">CATEGORÍAS POPULARES</p>
+          </div>
+          <a href="#" class="text-freak-accent font-geek text-[10px] hover:underline tracking-widest transition-all">VER_TODO.SYS</a>
         </div>
 
-        <div class="mt-10">
-          <div class="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
-            <!-- Feature 1 -->
-            <div class="relative card animate-fade-in">
-              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-freak-primary text-freak-light mb-4 glow">
-                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <h3 class="text-lg leading-6 font-medium text-freak-light">Búsqueda Avanzada</h3>
-              <p class="mt-2 text-base text-freak-light">
-                Encuentra exactamente lo que buscas con nuestro sistema de filtrado por categorías, estado y precio.
-              </p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div *ngFor="let cat of ['FIGURAS', 'TCG/CARTAS', 'RETRO_TECH', 'MANGA/COMICS']" 
+            class="group relative h-40 rounded-card overflow-hidden cursor-pointer border border-white/5">
+            <div class="absolute inset-0 bg-freak-lighter group-hover:scale-110 transition-transform duration-500"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-freak-dark via-transparent to-transparent"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="font-geek text-[10px] text-white group-hover:text-freak-secondary transition-colors">{{cat}}</span>
             </div>
-
-            <!-- Feature 2 -->
-            <div class="relative card animate-fade-in">
-              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-freak-primary text-freak-light mb-4 glow">
-                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                </svg>
-              </div>
-              <h3 class="text-lg leading-6 font-medium text-freak-light">Pagos Seguros</h3>
-              <p class="mt-2 text-base text-freak-light">
-                Transacciones protegidas con múltiples métodos de pago y sistema de escrow para tu tranquilidad.
-              </p>
-            </div>
-
-            <!-- Feature 3 -->
-            <div class="relative card animate-fade-in">
-              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-freak-primary text-freak-light mb-4 glow">
-                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-              </div>
-              <h3 class="text-lg leading-6 font-medium text-freak-light">Chat Integrado</h3>
-              <p class="mt-2 text-base text-freak-light">
-                Comunícate directamente con vendedores y compradores a través de nuestro sistema de chat en tiempo real.
-              </p>
-            </div>
+            <div class="absolute inset-x-0 bottom-0 h-1 bg-freak-secondary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <section class="py-24 bg-freak-card/30 border-y border-white/5">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-3 gap-12">
+          
+          <div class="flex gap-6 items-start">
+            <div class="text-freak-primary animate-glow">
+              <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+            </div>
+            <div>
+              <h3 class="text-white font-display text-lg font-bold mb-2">PROTECCIÓN TOTAL</h3>
+              <p class="text-slate-400 text-sm leading-relaxed">Sistema Escrow: no liberamos el pago hasta que tengas tu tesoro en mano.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-6 items-start">
+            <div class="text-freak-secondary animate-glow">
+              <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            </div>
+            <div>
+              <h3 class="text-white font-display text-lg font-bold mb-2">ENVÍOS RELÁMPAGO</h3>
+              <p class="text-slate-400 text-sm leading-relaxed">Logística optimizada para que tus figuras lleguen intactas y rápido.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-6 items-start">
+            <div class="text-freak-accent animate-glow">
+              <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            </div>
+            <div>
+              <h3 class="text-white font-display text-lg font-bold mb-2">COMUNIDAD FIEL</h3>
+              <p class="text-slate-400 text-sm leading-relaxed">Más de 50k usuarios validando la autenticidad de cada producto.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
   </main>
 </div>

@@ -17,9 +17,9 @@ export class NavbarComponent implements OnInit {
   isAuthenticated$!: Observable<boolean>;
   currentUser$!: Observable<any>;
   unreadCount$!: Observable<number>;
+  searchQuery = '';
   isMobileMenuOpen = false;
   isUserMenuOpen = false;
-  searchQuery = '';
 
   constructor(
     private authService: AuthService,

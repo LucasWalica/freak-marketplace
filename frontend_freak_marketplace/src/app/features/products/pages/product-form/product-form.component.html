@@ -1,156 +1,122 @@
-<div class="min-h-screen bg-gray-50 py-8">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+<div class="min-h-screen bg-freak-dark relative overflow-hidden py-12">
+  <div class="absolute inset-0 z-0 bg-cyber-mesh bg-mesh-size opacity-10 pointer-events-none"></div>
+  <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-freak-accent/5 rounded-full blur-[140px] pointer-events-none"></div>
+
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="bg-freak-card/60 backdrop-blur-2xl border border-white/10 rounded-card shadow-2xl overflow-hidden">
       
-      <div class="px-6 py-4 border-b border-gray-200 bg-white flex items-center justify-between">
-        <h1 class="text-2xl font-bold text-gray-900">
-          {{ isEditMode ? '✏️ Editar Producto' : '➕ Crear Nuevo Producto' }}
-        </h1>
-        <button 
-          type="button"
-          (click)="onCancel()"
-          class="text-sm font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
-        >
-          ← Volver a Productos
+      <div class="px-8 py-6 border-b border-white/5 bg-white/5 flex items-center justify-between">
+        <div>
+          <h2 class="font-geek text-[10px] text-freak-secondary tracking-[4px] mb-1">DATA_ENTRY_PROTOCOL</h2>
+          <h1 class="text-3xl font-display font-black text-white uppercase tracking-tighter">
+            {{ isEditMode ? 'Editar' : 'Registrar' }} <span class="text-freak-accent">Item</span>
+          </h1>
+        </div>
+        <button (click)="onCancel()" 
+          class="font-geek text-[9px] text-white/50 hover:text-freak-secondary transition-colors tracking-widest">
+          [ ABORTAR_MISIÓN ]
         </button>
       </div>
 
-      <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="p-6 space-y-8">
+      <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="p-8 space-y-10">
         
-        <div *ngIf="successMessage" class="p-4 bg-green-50 border-l-4 border-green-400 text-green-700 rounded shadow-sm">
-          <div class="flex items-center">
-            <span class="mr-2">✅</span>
-            <p class="font-medium">{{ successMessage }}</p>
-          </div>
+        <div *ngIf="successMessage" class="animate-slide-down p-4 bg-freak-success/10 border border-freak-success text-freak-success rounded-button font-geek text-[10px]">
+          <span class="mr-2">>>></span> {{ successMessage }}
         </div>
-
-        <div *ngIf="errorMessage" class="p-4 bg-red-50 border-l-4 border-red-400 text-red-700 rounded shadow-sm">
-          <div class="flex items-center">
-            <span class="mr-2">⚠️</span>
-            <p class="font-medium">{{ errorMessage }}</p>
-          </div>
+        <div *ngIf="errorMessage" class="animate-slide-down p-4 bg-freak-danger/10 border border-freak-danger text-freak-danger rounded-button font-geek text-[10px]">
+          <span class="mr-2">ERR_</span> {{ errorMessage }}
         </div>
 
         <div class="space-y-6">
-          <!-- Upload de Imágenes -->
-          <div class="space-y-6">
-            <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 flex items-center">
-              <span class="mr-2">🖼️</span> Imágenes del Producto
-            </h2>
-            
+          <div class="flex items-center gap-4">
+            <div class="h-px flex-1 bg-gradient-to-r from-freak-primary to-transparent"></div>
+            <h2 class="font-display text-lg font-bold text-white uppercase tracking-widest">01. Archivos Visuales</h2>
+          </div>
+          
+          <div class="bg-freak-dark/40 p-6 rounded-card border border-white/5">
             <app-image-upload
               [maxImages]="10"
               [existingImages]="existingImages"
               (imagesChange)="onImagesChange($event)"
             ></app-image-upload>
           </div>
+        </div>
 
-          <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 flex items-center">
-            <span class="mr-2">📦</span> Datos Principales
-          </h2>
+        <div class="space-y-6">
+          <div class="flex items-center gap-4">
+            <div class="h-px flex-1 bg-gradient-to-r from-freak-secondary to-transparent"></div>
+            <h2 class="font-display text-lg font-bold text-white uppercase tracking-widest">02. Identificación</h2>
+          </div>
           
-          <div class="grid grid-cols-1 gap-6">
-            <div>
-              <label for="title" class="block text-sm font-medium text-gray-700">Título del anuncio <span class="text-red-500">*</span></label>
-              <input
-                id="title"
-                type="text"
-                formControlName="title"
-                placeholder="Ej: Charizard Base Set Holo 1999"
-                class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                [ngClass]="(productForm.get('title')?.touched && productForm.get('title')?.invalid) ? 'border-red-500 bg-red-50' : 'border-gray-300'"
-              >
+          <div class="grid grid-cols-1 gap-8">
+            <div class="space-y-2">
+              <label class="font-geek text-[9px] text-freak-secondary uppercase tracking-widest">Título_Anuncio *</label>
+              <input type="text" formControlName="title" placeholder="Ej: Charizard Base Set Holo 1999"
+                class="w-full bg-freak-dark/50 border border-white/10 rounded-input px-4 py-4 text-white focus:border-freak-primary focus:ring-1 focus:ring-freak-primary/30 outline-none transition-all placeholder:text-white/20"
+                [ngClass]="{'border-freak-danger bg-freak-danger/5': (productForm.get('title')?.touched && productForm.get('title')?.invalid)}">
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label for="category" class="block text-sm font-medium text-gray-700">Categoría <span class="text-red-500">*</span></label>
-                <select
-                  id="category"
-                  formControlName="category"
-                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 sm:text-sm"
-                >
-                  <option value="" disabled>Selecciona una categoría</option>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div class="space-y-2">
+                <label class="font-geek text-[9px] text-freak-secondary uppercase tracking-widest">Categoría *</label>
+                <select formControlName="category" 
+                  class="w-full bg-freak-dark/50 border border-white/10 rounded-input px-4 py-4 text-white focus:border-freak-secondary outline-none cursor-pointer">
+                  <option value="" disabled>Selecciona Clase</option>
                   <option *ngFor="let cat of categories" [value]="cat.id">
                     {{ cat.icon }} {{ cat.name['es'] || cat.name['en'] }}
                   </option>
                 </select>
               </div>
 
-              <div>
-                <label for="price" class="block text-sm font-medium text-gray-700">Precio (€) <span class="text-red-500">*</span></label>
-                <input
-                  id="price"
-                  type="number"
-                  formControlName="price"
-                  placeholder="0.00"
-                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 sm:text-sm"
-                >
+              <div class="space-y-2">
+                <label class="font-geek text-[9px] text-freak-secondary uppercase tracking-widest">Valor (€) *</label>
+                <div class="relative">
+                  <span class="absolute left-4 top-1/2 -translate-y-1/2 text-freak-secondary font-bold">€</span>
+                  <input type="number" formControlName="price" placeholder="0.00"
+                    class="w-full bg-freak-dark/50 border border-white/10 rounded-input pl-10 pr-4 py-4 text-white focus:border-freak-secondary outline-none">
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div *ngIf="productForm.get('category')?.value" class="space-y-6 p-4 bg-indigo-50 rounded-lg border border-indigo-100">
-          <h3 class="text-md font-bold text-indigo-900 flex items-center">
-            <span class="mr-2">🔍</span> Especificaciones de categoría
+        <div *ngIf="productForm.get('category')?.value" 
+             class="animate-slide-up space-y-6 p-6 bg-freak-primary/5 rounded-card border border-freak-primary/20">
+          <h3 class="font-geek text-[10px] text-freak-primary flex items-center gap-2">
+            <span class="w-2 h-2 bg-freak-primary rounded-full animate-pulse"></span>
+            DETALLES_TÉCNICOS_CATEGORÍA
           </h3>
           
-          <div formGroupName="specifications" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div *ngFor="let field of currentCategorySchema">
-              <label [for]="field" class="block text-xs font-bold text-indigo-700 uppercase mb-1">
+          <div formGroupName="specifications" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div *ngFor="let field of currentCategorySchema" class="space-y-2">
+              <label [for]="field" class="font-geek text-[8px] text-white/40 uppercase tracking-[2px]">
                 {{ field }}
               </label>
-              <input
-                [id]="field"
-                type="text"
-                [formControlName]="field"
-                [placeholder]="'Ej: ' + field"
-                class="block w-full px-3 py-2 border border-indigo-200 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 sm:text-sm bg-white"
-              >
-            </div>
-          </div>
-          
-          <p *ngIf="currentCategorySchema.length === 0" class="text-sm text-indigo-500 italic">
-            No hay detalles adicionales para esta categoría.
-          </p>
-        </div>
-
-        <div class="space-y-6">
-          <h2 class="text-lg font-semibold text-gray-700 border-b pb-2">⚙️ Estado y Visibilidad</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Disponibilidad</label>
-              <select formControlName="status" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm">
-                <option value="AVAILABLE">Disponible</option>
-                <option value="RESERVED">Reservado</option>
-                <option value="SOLD">Vendido</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Plan Boost</label>
-              <select formControlName="boost_type" class="mt-1 block w-full px-3 py-2 border border-indigo-300 rounded-md shadow-sm sm:text-sm text-indigo-700 bg-indigo-50">
-                <option value="NONE">Estándar</option>
-                <option value="BASIC">Básico</option>
-                <option value="PREMIUM">Premium</option>
-                <option value="NEON">NEON</option>
-              </select>
+              <input [id]="field" type="text" [formControlName]="field"
+                class="w-full bg-freak-dark border border-white/5 rounded-input px-4 py-3 text-sm text-slate-200 focus:border-freak-primary outline-none">
             </div>
           </div>
         </div>
 
-        <div class="pt-8 border-t border-gray-200 flex justify-end space-x-4">
-          <button type="button" (click)="onCancel()" class="px-5 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-            Cancelar
+        <div class="pt-10 border-t border-white/5 flex flex-col sm:flex-row justify-end gap-4">
+          <button type="button" (click)="onCancel()" 
+            class="px-8 py-4 font-geek text-[10px] tracking-widest text-white/50 border border-white/10 rounded-button hover:bg-white/5 transition-all">
+            CANCELAR
           </button>
-          <button
-            type="submit"
-            [disabled]="productForm.invalid || isLoading"
-            class="px-8 py-2 border border-transparent rounded-lg shadow-md text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50"
-          >
-            <span *ngIf="!isLoading">{{ isEditMode ? 'Guardar Cambios' : 'Publicar Ahora' }}</span>
-            <span *ngIf="isLoading">Enviando...</span>
+          
+          <button type="submit" [disabled]="productForm.invalid || isLoading"
+            class="relative group px-10 py-4 font-geek text-[10px] tracking-widest text-white overflow-hidden rounded-button disabled:opacity-30">
+            <div class="absolute inset-0 bg-freak-gradient animate-border-flow bg-[length:200%_auto]"></div>
+            <span class="relative z-10 flex items-center justify-center gap-2">
+              <span *ngIf="!isLoading">{{ isEditMode ? 'GUARDAR_CAMBIOS' : 'PUBLICAR_LOTE' }}</span>
+              <span *ngIf="isLoading" class="flex items-center gap-2">
+                <svg class="animate-spin h-3 w-3 text-white" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                PROCESANDO...
+              </span>
+            </span>
           </button>
         </div>
 

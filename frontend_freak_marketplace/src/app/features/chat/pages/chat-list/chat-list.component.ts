@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat-list',
@@ -9,5 +10,9 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule]
 })
 export class ChatListComponent {
-  constructor() {}
+  constructor(private router:Router) {}
+
+  navigateToChatDetail(roomId: number): void {
+    this.router.navigate([`/chat/${roomId}`]);
+  }
 }

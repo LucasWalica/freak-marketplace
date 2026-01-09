@@ -1,141 +1,137 @@
-<div class="min-h-screen bg-freak-dark py-8">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="card">
-      <!-- Header -->
-      <div class="px-6 py-4 border-b border-freak-primary flex justify-between items-center">
-        <h1 class="text-2xl font-bold neon animate-pulse">📦 Productos</h1>
-        <button
-          (click)="onCreateProduct()"
-          class="bg-gradient-cyberpunk text-freak-dark hover:opacity-90 px-4 py-2 rounded-button text-sm font-medium transition-all cyberpunk"
-        >
-          + Crear Producto
-        </button>
+<div class="min-h-screen bg-freak-dark relative overflow-hidden">
+  
+  <div class="absolute inset-0 z-0 bg-cyber-mesh bg-mesh-size opacity-20 pointer-events-none"></div>
+  <div class="absolute inset-0 z-0 bg-gradient-to-b from-freak-dark via-transparent to-freak-dark pointer-events-none"></div>
+
+  <div class="absolute -top-40 -right-40 w-[600px] h-[600px] bg-freak-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+  <div class="absolute top-1/2 -left-40 w-[500px] h-[500px] bg-freak-secondary/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-16">
+    
+    <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-8">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-freak-secondary/30 bg-freak-secondary/5 text-freak-secondary font-geek text-[9px] tracking-[3px]">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-freak-secondary opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-freak-secondary"></span>
+          </span>
+          DATABASE_SYNCED
+        </div>
+        <h1 class="font-display text-5xl md:text-6xl font-black text-white tracking-tighter uppercase leading-none">
+          EXPLORAR <span class="text-transparent bg-clip-text bg-freak-gradient animate-border-flow bg-[length:200%_auto]">BOTÍN</span>
+        </h1>
       </div>
+      
+      <button (click)="onCreateProduct()"
+        class="group relative px-8 py-4 font-geek text-[10px] tracking-[3px] text-white overflow-hidden rounded-button transition-all hover:scale-105 active:scale-95 shadow-glow">
+        <div class="absolute inset-0 bg-freak-primary group-hover:bg-freak-accent transition-colors"></div>
+        <span class="relative z-10 flex items-center gap-3">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-width="3" stroke-linecap="round"></path></svg>
+          PUBLICAR_ITEM
+        </span>
+      </button>
+    </div>
 
-      <!-- Filtros -->
-      <div class="px-6 py-4 border-b border-freak-primary bg-freak-dark bg-opacity-50">
-        <form [formGroup]="filterForm" (ngSubmit)="onFilterChange()" class="space-y-4">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div>
-              <label for="category" class="block text-sm font-medium text-freak-light mb-1">Categoría</label>
-              <select
-                id="category"
-                formControlName="category"
-                class="block w-full px-3 py-2 border border-freak-primary rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
-              >
-                <option value="">Todas las categorías</option>
-              </select>
-            </div>
+    <div class="mb-16 p-[1px] rounded-card bg-gradient-to-r from-white/20 via-white/5 to-transparent">
+      <div class="bg-freak-card/60 backdrop-blur-xl p-8 rounded-card border border-white/5 shadow-2xl">
+        <form [formGroup]="filterForm" (ngSubmit)="onFilterChange()" class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8 items-end">
+          
+          <div class="space-y-3">
+            <label class="font-geek text-[9px] text-freak-secondary/80 uppercase tracking-widest ml-1">Tipo_Clase</label>
+            <select formControlName="category" 
+              class="w-full bg-freak-dark/50 border border-white/10 rounded-input px-4 py-3 text-sm text-slate-200 focus:border-freak-secondary focus:ring-1 focus:ring-freak-secondary/30 outline-none transition-all cursor-pointer">
+              <option value="">Todas las clases</option>
+            </select>
+          </div>
 
-            <div>
-              <label for="status" class="block text-sm font-medium text-freak-light mb-1">Estado</label>
-              <select
-                id="status"
-                formControlName="status"
-                class="block w-full px-3 py-2 border border-freak-primary rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
-              >
-                <option value="">Todos los estados</option>
-                <option value="AVAILABLE">Disponible</option>
-                <option value="RESERVED">Reservado</option>
-                <option value="SOLD">Vendido</option>
-              </select>
-            </div>
+          <div class="space-y-3">
+            <label class="font-geek text-[9px] text-freak-secondary/80 uppercase tracking-widest ml-1">Status_Red</label>
+            <select formControlName="status" 
+              class="w-full bg-freak-dark/50 border border-white/10 rounded-input px-4 py-3 text-sm text-slate-200 focus:border-freak-accent focus:ring-1 focus:ring-freak-accent/30 outline-none transition-all cursor-pointer">
+              <option value="">Todos los estados</option>
+              <option value="AVAILABLE">DISPONIBLE</option>
+              <option value="RESERVED">RESERVADO</option>
+              <option value="SOLD">VENDIDO</option>
+            </select>
+          </div>
 
-            <div>
-              <label for="boost_type" class="block text-sm font-medium text-freak-light mb-1">Tipo de Boost</label>
-              <select
-                id="boost_type"
-                formControlName="boost_type"
-                class="block w-full px-3 py-2 border border-freak-primary rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
-              >
-                <option value="">Todos</option>
-                <option value="NEON">Neon Green</option>
-                <option value="GOLD">Gold Edition</option>
-              </select>
+          <div class="lg:col-span-2 space-y-3">
+            <label class="font-geek text-[9px] text-freak-secondary/80 uppercase tracking-widest text-center block">Rango_Créditos</label>
+            <div class="flex items-center gap-4">
+              <div class="relative w-full">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white/20 text-xs">$</span>
+                <input type="number" formControlName="min_price" placeholder="MIN" 
+                  class="w-full bg-freak-dark/50 border border-white/10 rounded-input pl-8 pr-4 py-3 text-sm text-white focus:border-freak-secondary outline-none">
+              </div>
+              <span class="text-white/20 font-bold">/</span>
+              <div class="relative w-full">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white/20 text-xs">$</span>
+                <input type="number" formControlName="max_price" placeholder="MAX" 
+                  class="w-full bg-freak-dark/50 border border-white/10 rounded-input pl-8 pr-4 py-3 text-sm text-white focus:border-freak-secondary outline-none">
+              </div>
             </div>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label for="min_price" class="block text-sm font-medium text-freak-light mb-1">Precio mínimo</label>
-              <input
-                type="number"
-                id="min_price"
-                formControlName="min_price"
-                class="block w-full px-3 py-2 border border-freak-primary rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
-                placeholder="0"
-              >
-            </div>
-
-            <div>
-              <label for="max_price" class="block text-sm font-medium text-freak-light mb-1">Precio máximo</label>
-              <input
-                type="number"
-                id="max_price"
-                formControlName="max_price"
-                class="block w-full px-3 py-2 border border-freak-primary rounded-input transition-all duration-200 outline-none focus:ring-2 sm:text-sm bg-freak-dark text-freak-light"
-                placeholder="10000"
-              >
-            </div>
-          </div>
-
-          <div class="flex justify-end">
-            <button
-              type="submit"
-              class="bg-freak-primary text-freak-light hover:bg-freak-secondary px-4 py-2 rounded-button transition-colors"
-            >
-              Aplicar Filtros
-            </button>
-          </div>
+          <button type="submit" 
+            class="w-full py-3.5 font-geek text-[10px] tracking-widest text-white bg-white/5 border border-white/10 rounded-button hover:bg-freak-secondary hover:text-freak-dark hover:shadow-neon transition-all duration-300">
+            EJECUTAR_SCAN
+          </button>
         </form>
       </div>
+    </div>
 
-      <!-- Productos -->
-      <div class="px-6 py-4">
-        <div *ngIf="isLoading" class="text-center py-8">
-          <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-freak-secondary mx-auto"></div>
-          <p class="mt-2 text-freak-light">Cargando productos...</p>
+    <div class="min-h-[500px]">
+      <div *ngIf="isLoading" class="flex flex-col items-center justify-center py-32">
+        <div class="relative w-24 h-24">
+          <div class="absolute inset-0 border-2 border-freak-secondary/10 rounded-full"></div>
+          <div class="absolute inset-0 border-t-2 border-freak-secondary rounded-full animate-spin"></div>
+          <div class="absolute inset-4 border-t-2 border-freak-accent rounded-full animate-spin-slow opacity-50"></div>
         </div>
-
-        <div *ngIf="!isLoading && products.length === 0" class="text-center py-8">
-          <p class="text-freak-light">No se encontraron productos.</p>
-        </div>
-
-        <div *ngIf="!isLoading && products.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          <app-product-card
-            *ngFor="let product of products"
-            [product]="product"
-            [showActions]="showActions"
-            (edit)="onEditProduct($event)"
-            (delete)="onDeleteProduct($event)"
-            (productClick)="onProductClick($event)"
-          ></app-product-card>
-        </div>
+        <p class="mt-8 font-geek text-[10px] text-freak-secondary tracking-[4px] animate-pulse">REUPERANDO_ARCHIVOS...</p>
       </div>
 
-      <!-- Paginación -->
-      <div *ngIf="!isLoading && products.length > 0" class="px-6 py-4 border-t border-freak-primary flex justify-between items-center">
-        <div>
-          <p class="text-sm text-freak-light">
-            Mostrando {{ (currentPage - 1) * 12 + 1 }} a {{ currentPage * 12 }} de {{ totalPages * 12 }} productos
-          </p>
+      <div *ngIf="!isLoading && products.length === 0" 
+           class="text-center py-32 bg-freak-card/30 backdrop-blur-sm rounded-card border border-dashed border-white/10">
+        <span class="text-6xl mb-6 block">🚫</span>
+        <p class="font-display text-3xl text-white uppercase tracking-tighter">Sin señal de radar</p>
+        <p class="text-slate-400 mt-2 font-light">No hay objetos que coincidan con tu búsqueda en este sector.</p>
+      </div>
+
+      <div *ngIf="!isLoading && products.length > 0" 
+           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 animate-fade-in">
+        <app-product-card
+          *ngFor="let product of products"
+          [product]="product"
+          class="transform transition-transform duration-500 hover:-translate-y-2"
+        ></app-product-card>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading && products.length > 0" 
+         class="mt-24 flex flex-col md:flex-row justify-between items-center gap-8 p-8 bg-freak-card/40 backdrop-blur-md rounded-card border border-white/5 shadow-xl">
+      <div class="font-geek text-[10px] text-slate-400 tracking-[3px]">
+        DATOS: <span class="text-freak-secondary">{{ (currentPage - 1) * 12 + 1 }}-{{ currentPage * 12 }}</span> 
+        // TOTAL_ITEMS: <span class="text-freak-accent">{{ totalPages * 12 }}</span>
+      </div>
+      
+      <div class="flex items-center gap-8">
+        <button (click)="onPreviousPage()" [disabled]="!hasPrevious"
+          class="group flex items-center gap-2 font-geek text-[10px] text-white/50 disabled:opacity-10 hover:text-freak-secondary transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="2"></path></svg>
+          ANTERIOR
+        </button>
+        
+        <div class="flex gap-2">
+          <span *ngFor="let p of [].constructor(totalPages); let i = index" 
+            class="h-1 rounded-full transition-all duration-500"
+            [ngClass]="i + 1 === currentPage ? 'bg-freak-gradient w-8 shadow-glow' : 'bg-white/10 w-4'"></span>
         </div>
-        <div class="flex space-x-2">
-          <button
-            (click)="onPreviousPage()"
-            [disabled]="!hasPrevious"
-            class="px-3 py-1 rounded-button bg-freak-dark bg-opacity-50 text-freak-light hover:bg-freak-primary transition-colors disabled:opacity-50"
-          >
-            Anterior
-          </button>
-          <button
-            (click)="onNextPage()"
-            [disabled]="!hasNext"
-            class="px-3 py-1 rounded-button bg-freak-dark bg-opacity-50 text-freak-light hover:bg-freak-primary transition-colors disabled:opacity-50"
-          >
-            Siguiente
-          </button>
-        </div>
+
+        <button (click)="onNextPage()" [disabled]="!hasNext"
+          class="group flex items-center gap-2 font-geek text-[10px] text-white/50 disabled:opacity-10 hover:text-freak-secondary transition-all">
+          SIGUIENTE
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2"></path></svg>
+        </button>
       </div>
     </div>
   </div>

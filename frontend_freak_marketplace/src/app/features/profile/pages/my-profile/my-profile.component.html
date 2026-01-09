@@ -1,175 +1,143 @@
-<div class="min-h-screen bg-gray-50 py-8">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- Header -->
-    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-4">
-          <div class="text-6xl">👤</div>
+<div class="min-h-screen bg-freak-dark relative overflow-hidden py-12">
+  <div class="absolute inset-0 z-0 bg-cyber-mesh bg-mesh-size opacity-10 pointer-events-none"></div>
+  <div class="absolute -top-24 -left-24 w-96 h-96 bg-freak-secondary/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    
+    <div class="bg-freak-card/60 backdrop-blur-2xl border-l-4 border-freak-primary p-8 rounded-r-card mb-10 relative overflow-hidden">
+      <div class="absolute right-0 top-0 p-4 opacity-5 font-display text-6xl font-black italic select-none">DATA_CORE</div>
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-6">
+          <div class="relative group">
+            <div class="absolute -inset-1 bg-freak-gradient rounded-full blur opacity-30 group-hover:opacity-60 transition duration-1000"></div>
+            <div class="relative w-24 h-24 bg-freak-dark rounded-full border-2 border-white/10 flex items-center justify-center overflow-hidden">
+              <img *ngIf="currentProfile?.avatar_url" [src]="currentProfile?.avatar_url" class="w-full h-full object-cover">
+              <span *ngIf="!currentProfile?.avatar_url" class="text-5xl">👤</span>
+            </div>
+          </div>
           <div>
-            <h1 class="text-3xl font-bold text-gray-900">Mi Perfil</h1>
-            <p class="text-gray-600">Gestiona tu información personal</p>
+            <h2 class="font-geek text-[10px] text-freak-primary tracking-[4px] mb-1">USER_AUTHORIZED</h2>
+            <h1 class="text-4xl font-display font-black text-white tracking-tighter uppercase">
+              {{ currentUser?.username }}
+            </h1>
           </div>
         </div>
-        <button 
-          (click)="logout()"
-          class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
-        >
-          Cerrar Sesión
+        <button (click)="logout()" 
+          class="px-6 py-3 font-geek text-[10px] tracking-widest text-freak-danger border border-freak-danger/30 rounded-button hover:bg-freak-danger hover:text-white transition-all">
+          [ TERMINAR_SESIÓN ]
         </button>
       </div>
     </div>
 
-    <!-- Loading State -->
-    <div *ngIf="isLoading && !currentProfile" class="bg-white rounded-lg shadow-lg p-12 text-center">
-      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-      <p class="mt-4 text-gray-600">Cargando perfil...</p>
+    <div *ngIf="isLoading && !currentProfile" class="p-20 text-center bg-freak-card/40 rounded-card border border-white/5">
+      <div class="w-16 h-16 border-4 border-freak-primary border-t-transparent rounded-full animate-spin mx-auto mb-6 shadow-neon"></div>
+      <p class="font-geek text-[10px] text-freak-primary tracking-[5px] uppercase animate-pulse">Sincronizando_Datos...</p>
     </div>
 
-    <!-- Profile Content -->
-    <div *ngIf="!isLoading || currentProfile" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <!-- User Info Card -->
-      <div class="lg:col-span-1">
-        <div class="bg-white rounded-lg shadow-lg p-6">
-          <div class="text-center">
-            <div class="w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span class="text-4xl">👤</span>
+    <div *ngIf="!isLoading || currentProfile" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <div class="lg:col-span-4 space-y-6">
+        <div class="bg-freak-card/80 backdrop-blur-xl border border-white/10 p-6 rounded-card relative overflow-hidden">
+          <div class="absolute top-0 right-0 p-2 opacity-10">
+            <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+          </div>
+          
+          <h3 class="font-geek text-[10px] text-freak-secondary tracking-[3px] uppercase mb-6 border-b border-white/5 pb-2">Status_Perfil</h3>
+          
+          <div class="space-y-6">
+            <div class="flex justify-between items-end">
+              <span class="font-geek text-[8px] text-slate-400 tracking-widest uppercase">Rango_Plan</span>
+              <span class="font-display font-black text-freak-primary italic">{{ currentProfile?.plan_type || 'FREE' }}</span>
             </div>
-            <h2 class="text-xl font-semibold text-gray-900">{{ currentUser?.first_name }} {{ currentUser?.last_name }}</h2>
-            <p class="text-gray-600">@{{ currentUser?.username }}</p>
-            <p class="text-gray-500 text-sm">{{ currentUser?.email }}</p>
             
-            <div class="mt-4 pt-4 border-t border-gray-200">
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-sm text-gray-600">Plan:</span>
-                <span class="text-sm font-semibold text-indigo-600">{{ currentProfile?.plan_type || 'FREE' }}</span>
-              </div>
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-sm text-gray-600">Calificación:</span>
-                <div class="flex items-center">
-                  <span class="text-yellow-500">⭐</span>
-                  <span class="text-sm font-semibold ml-1">{{ currentProfile?.rating || '5.0' }}</span>
-                </div>
-              </div>
-              <div class="flex justify-between items-center">
-                <span class="text-sm text-gray-600">Verificado:</span>
-                <span class="text-sm font-semibold" [class.text-green-600]="currentProfile?.is_verified" [class.text-gray-400]="!currentProfile?.is_verified">
-                  {{ currentProfile?.is_verified ? '✓ Sí' : 'No' }}
-                </span>
+            <div class="flex justify-between items-end">
+              <span class="font-geek text-[8px] text-slate-400 tracking-widest uppercase">Reputación</span>
+              <div class="flex items-center gap-2">
+                <span class="text-freak-accent text-lg">★</span>
+                <span class="font-display font-black text-white">{{ currentProfile?.rating || '5.0' }}</span>
               </div>
             </div>
+
+            <div class="flex justify-between items-end">
+              <span class="font-geek text-[8px] text-slate-400 tracking-widest uppercase">Verificado</span>
+              <span class="font-geek text-[10px] px-2 py-0.5 rounded-sm" 
+                [class]="currentProfile?.is_verified ? 'bg-freak-success/20 text-freak-success border border-freak-success/50' : 'bg-white/5 text-slate-500 border border-white/10'">
+                {{ currentProfile?.is_verified ? 'CONFIRMADO' : 'PENDIENTE' }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-white/5 border border-white/5 p-4 rounded-card text-center hover:bg-freak-primary/10 transition-all cursor-pointer group">
+            <div class="text-2xl mb-2 grayscale group-hover:grayscale-0 transition-all">📦</div>
+            <span class="font-geek text-[8px] text-white/50 tracking-widest uppercase block">Mis_Lotes</span>
+          </div>
+          <div class="bg-white/5 border border-white/5 p-4 rounded-card text-center hover:bg-freak-secondary/10 transition-all cursor-pointer group">
+            <div class="text-2xl mb-2 grayscale group-hover:grayscale-0 transition-all">⭐</div>
+            <span class="font-geek text-[8px] text-white/50 tracking-widest uppercase block">Reviews</span>
           </div>
         </div>
       </div>
 
-      <!-- Profile Form -->
-      <div class="lg:col-span-2">
-        <div class="bg-white rounded-lg shadow-lg p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Editar Perfil</h3>
-          
-          <!-- Success Message -->
-          <div *ngIf="successMessage" class="mb-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-md">
-            {{ successMessage }}
+      <div class="lg:col-span-8">
+        <div class="bg-freak-card/80 backdrop-blur-xl border border-white/10 p-8 rounded-card">
+          <div class="flex items-center gap-4 mb-8">
+            <h3 class="font-display text-xl font-bold text-white uppercase tracking-tight">Editar_Datos_Cifrados</h3>
+            <div class="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent"></div>
           </div>
 
-          <!-- Error Message -->
-          <div *ngIf="errorMessage" class="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-md">
-            {{ errorMessage }}
+          <div *ngIf="successMessage" class="mb-6 p-4 bg-freak-success/10 border border-freak-success text-freak-success font-geek text-[9px] tracking-widest rounded-button">
+            >>> UPDATE_SUCCESSFUL: Datos actualizados en el servidor.
           </div>
 
-          <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-6">
-            <div>
-              <label for="bio" class="block text-sm font-medium text-gray-700 mb-1">
-                Biografía
-              </label>
+          <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-8">
+            <div class="space-y-2">
+              <label class="font-geek text-[9px] text-freak-secondary tracking-widest uppercase ml-1">Biografía_Mercader</label>
               <textarea
-                id="bio"
-                name="bio"
                 formControlName="bio"
                 rows="4"
-                placeholder="Cuéntanos sobre ti..."
-                class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                [ngClass]="{
-                  'border-red-300 focus:ring-red-200 focus:border-red-500': bioControl?.touched && bioControl?.invalid,
-                  'border-gray-300': !(bioControl?.touched && bioControl?.invalid)
-                }"
+                placeholder="Escribe tu historia en el gremio..."
+                class="w-full bg-freak-dark/50 border border-white/10 rounded-input px-4 py-4 text-white text-sm focus:border-freak-primary outline-none transition-all resize-none"
               ></textarea>
-              <div 
-                *ngIf="bioControl?.touched && bioControl?.invalid"
-                class="mt-1 text-xs text-red-600 font-medium"
-              >
-                <span *ngIf="bioControl?.errors?.['maxlength']">La biografía no puede exceder 500 caracteres.</span>
+              <div class="flex justify-between items-center px-1">
+                <span class="text-[8px] font-geek text-freak-danger uppercase" *ngIf="bioControl?.touched && bioControl?.invalid">Límite excedido (500)</span>
+                <span class="text-[8px] font-geek text-slate-500 uppercase ml-auto">{{ bioControl?.value?.length || 0 }}/500 CHARS</span>
               </div>
-              <p class="mt-1 text-xs text-gray-500">
-                {{ bioControl?.value?.length || 0 }}/500 caracteres
-              </p>
             </div>
 
-            <div>
-              <label for="avatar_url" class="block text-sm font-medium text-gray-700 mb-1">
-                URL del Avatar
-              </label>
+            <div class="space-y-2">
+              <label class="font-geek text-[9px] text-freak-secondary tracking-widest uppercase ml-1">Enlace_Avatar_Digital</label>
               <input
-                id="avatar_url"
-                name="avatar_url"
                 type="url"
                 formControlName="avatar_url"
-                placeholder="https://ejemplo.com/tu-avatar.jpg"
-                class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                [ngClass]="{
-                  'border-red-300 focus:ring-red-200 focus:border-red-500': avatarUrlControl?.touched && avatarUrlControl?.invalid,
-                  'border-gray-300': !(avatarUrlControl?.touched && avatarUrlControl?.invalid)
-                }"
+                placeholder="https://..."
+                class="w-full bg-freak-dark/50 border border-white/10 rounded-input px-4 py-4 text-white text-sm focus:border-freak-primary outline-none transition-all"
               >
-              <div 
-                *ngIf="avatarUrlControl?.touched && avatarUrlControl?.invalid"
-                class="mt-1 text-xs text-red-600 font-medium"
-              >
-                <span *ngIf="avatarUrlControl?.errors?.['invalidUrl']">{{ avatarUrlControl?.errors?.['invalidUrl'] }}</span>
-              </div>
             </div>
 
-            <div class="flex justify-end space-x-3">
-              <button
-                type="button"
-                (click)="goToHome()"
-                class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Cancelar
+            <div class="flex flex-col sm:flex-row justify-end gap-4 pt-6 border-t border-white/5">
+              <button type="button" (click)="goToHome()"
+                class="px-8 py-4 font-geek text-[10px] tracking-widest text-white/40 hover:text-white transition-all">
+                DESCARTAR_CAMBIOS
               </button>
-              <button
-                type="submit"
-                [disabled]="profileForm.invalid || isLoading"
-                class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <span *ngIf="isLoading" class="mr-2">
-                  <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
+              
+              <button type="submit" [disabled]="profileForm.invalid || isLoading"
+                class="relative group px-10 py-4 font-geek text-[10px] tracking-[3px] text-white rounded-button overflow-hidden transition-all shadow-glow disabled:opacity-30">
+                <div class="absolute inset-0 bg-freak-gradient animate-border-flow bg-[length:200%_auto]"></div>
+                <span class="relative z-10 flex items-center gap-3">
+                  <span *ngIf="!isLoading">GUARDAR_PROTOCOLO</span>
+                  <span *ngIf="isLoading" class="flex items-center gap-2">
+                    <svg class="animate-spin h-3 w-3" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    PROCESANDO...
+                  </span>
                 </span>
-                {{ isLoading ? 'Guardando...' : 'Guardar Cambios' }}
               </button>
             </div>
           </form>
         </div>
-
-        <!-- Quick Actions -->
-        <div class="bg-white rounded-lg shadow-lg p-6 mt-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Acciones Rápidas</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-gray-50 rounded-lg p-4 text-center hover:bg-gray-100 transition-colors cursor-pointer">
-              <div class="text-3xl mb-2">📦</div>
-              <h4 class="font-semibold text-gray-900">Mis Productos</h4>
-              <p class="text-sm text-gray-600">Gestiona tus productos publicados</p>
-            </div>
-            <div class="bg-gray-50 rounded-lg p-4 text-center hover:bg-gray-100 transition-colors cursor-pointer">
-              <div class="text-3xl mb-2">⭐</div>
-              <h4 class="font-semibold text-gray-900">Calificaciones</h4>
-              <p class="text-sm text-gray-600">Ve tus calificaciones como vendedor</p>
-            </div>
-          </div>
-        </div>
       </div>
+
     </div>
   </div>
 </div>
